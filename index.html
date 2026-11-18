@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Interactive Equal Earth world map, Connected-Papers-style coauthorship & bibliographic similarity network, and searchable directory of 178 verified auditory neuroscience laboratories across 29 countries.">
+  <meta name="author" content="Simoncio-art">
+  <link rel="canonical" href="https://simoncio-art.github.io/auditory-labs-atlas/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Auditory Atlas">
+  <meta property="og:title" content="Auditory Atlas — Global Map & Network of Auditory Neuroscience Labs">
+  <meta property="og:description" content="Explore 178 verified auditory neuroscience & hearing laboratories across 29 countries: interactive map, coauthorship & bibliographic similarity graph, and sortable directory.">
+  <meta property="og:url" content="https://simoncio-art.github.io/auditory-labs-atlas/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Auditory Atlas — Global Map & Network of Auditory Neuroscience Labs">
+  <meta name="twitter:description" content="178 verified auditory neuroscience laboratories across 29 countries: world map, coauthorship & bibliographic similarity network, and searchable directory.">
   <script>
     try {
       const saved = localStorage.getItem("auditory-atlas-scheme");
@@ -12,7 +23,7 @@
       }
     } catch {}
   </script>
-  <title>Auditory Atlas | Mapa Mundial y Red de Laboratorios de Audición</title>
+  <title>Auditory Atlas | Global Map &amp; Network of Auditory Neuroscience Labs</title>
   <style>
     @layer reset, tokens, base, layout, components, utilities;
 
@@ -384,7 +395,54 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 0.5rem;
+        justify-content: flex-end;
+        gap: 0.45rem;
+      }
+      .header-utility-btns {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 0.45rem;
+      }
+      .contact-pill {
+        min-block-size: 36px;
+        padding-inline: 0.65rem;
+        padding-block: 0.3rem;
+        border-radius: var(--radius-sm);
+        border: 1px dashed var(--border-color);
+        background-color: var(--bg-canvas);
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.32rem;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .contact-pill strong {
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .contact-pill:hover {
+        border-color: var(--accent);
+        background-color: var(--bg-subtle);
+        color: var(--text-main);
+      }
+      .lang-toggle-btn {
+        gap: 0.22rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .lang-opt {
+        opacity: 0.6;
+        font-weight: 600;
+      }
+      .lang-opt.is-active {
+        opacity: 1;
+        color: var(--accent);
+        font-weight: 800;
+      }
+      .lang-sep {
+        opacity: 0.45;
       }
 
       .btn {
@@ -1050,10 +1108,48 @@
         margin-block-start: 0.3rem;
         max-inline-size: 65ch;
       }
+      .dialog-callout {
+        margin-block-start: 0.55rem;
+        padding: 0.55rem 0.75rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+        border-inline-start: 3px solid var(--accent);
+        background-color: var(--bg-canvas);
+        font-size: 0.81rem;
+        line-height: 1.45;
+        max-inline-size: 65ch;
+      }
       .dialog-actions {
         display: flex;
         justify-content: flex-end;
         margin-block-start: 0.5rem;
+      }
+      .insp-footer {
+        margin-block-start: auto;
+        padding-block-start: 0.75rem;
+        border-block-start: 1px solid var(--border-color);
+        font-size: 0.76rem;
+        color: var(--text-muted);
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .insp-footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.35rem 0.75rem;
+      }
+      .link-btn {
+        border: none;
+        background: transparent;
+        padding: 0;
+        color: var(--accent);
+        font-size: inherit;
+        font-weight: 600;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 0.18em;
       }
 
       .label-short {
@@ -1122,35 +1218,47 @@
           grid-template-columns: 1fr auto;
           grid-template-areas:
             "brand actions"
-            "nav nav";
+            "nav nav"
+            "contact contact";
           align-items: center;
-          gap: 0.45rem 0.6rem;
-          padding: 0.5rem 0.7rem;
+          gap: 0.35rem 0.5rem;
+          padding: 0.45rem 0.7rem;
         }
         .brand-block {
           grid-area: brand;
         }
         .brand-title {
-          font-size: 1rem;
+          font-size: 0.98rem;
         }
         .brand-subtitle {
-          font-size: 0.7rem;
-          line-height: 1.25;
+          font-size: 0.69rem;
+          line-height: 1.22;
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
         .header-actions {
-          grid-area: actions;
-          margin-inline-start: 0;
-          flex-wrap: nowrap;
-          gap: 0.35rem;
+          display: contents;
         }
-        .header-actions .btn {
-          min-block-size: 34px;
-          padding-inline: 0.55rem;
-          font-size: 0.78rem;
+        .header-utility-btns {
+          grid-area: actions;
+          justify-self: end;
+          gap: 0.28rem;
+        }
+        .header-utility-btns .btn {
+          min-block-size: 32px;
+          padding-inline: 0.46rem;
+          font-size: 0.75rem;
+        }
+        .contact-pill {
+          grid-area: contact;
+          min-block-size: 24px;
+          padding-inline: 0.5rem;
+          padding-block: 0.14rem;
+          font-size: 0.71rem;
+          line-height: 1.25;
+          justify-content: center;
         }
         .primary-nav {
           grid-area: nav;
@@ -1385,24 +1493,10 @@
           font-weight: 700;
           font-size: 0.78rem;
         }
-        .labs-table td:nth-child(4)::before {
-          content: "Afinidad ";
-          display: block;
-          font-family: var(--font-sans);
-          font-size: 0.65rem;
-          font-weight: 600;
-          color: var(--text-muted);
-        }
-        .labs-table td:nth-child(5)::before {
-          content: "h-index ";
-          display: block;
-          font-family: var(--font-sans);
-          font-size: 0.65rem;
-          font-weight: 600;
-          color: var(--text-muted);
-        }
+        .labs-table td:nth-child(4)::before,
+        .labs-table td:nth-child(5)::before,
         .labs-table td:nth-child(6)::before {
-          content: "Citas ";
+          content: attr(data-label);
           display: block;
           font-family: var(--font-sans);
           font-size: 0.65rem;
@@ -1412,6 +1506,13 @@
       }
 
       @media (max-width: 375px) {
+        .header-utility-btns .btn {
+          padding-inline: 0.4rem;
+          font-size: 0.72rem;
+        }
+        .contact-pill {
+          font-size: 0.68rem;
+        }
         .metrics-grid {
           grid-template-columns: repeat(2, 1fr);
         }
@@ -1454,7 +1555,7 @@
   </style>
 </head>
 <body>
-  <a href="#main-content" class="skip-link visually-hidden">Ir al contenido principal</a>
+  <a href="#main-content" class="skip-link visually-hidden" id="skip-link">Skip to main content</a>
   <p id="live-status" role="status" class="visually-hidden"></p>
 
   <div class="app-shell">
@@ -1465,38 +1566,47 @@
             <circle cx="12" cy="12" r="9"/>
             <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>
           </svg>
-          <span>Auditory Atlas<span class="label-full"> — Mapa Mundial y Red de Laboratorios de Audición</span></span>
+          <span>Auditory Atlas<span class="label-full" id="brand-title-sub"> — Global Map &amp; Network of Auditory Labs</span></span>
         </h1>
-        <p class="brand-subtitle" id="header-meta-line">Cargando métricas verificadas...</p>
+        <p class="brand-subtitle" id="header-meta-line">Loading verified metrics...</p>
       </div>
 
-      <nav class="primary-nav" aria-label="Vistas principales">
-        <button type="button" class="nav-tab" data-view="map" aria-pressed="true"><span class="label-full">Mapamundi (País / Estado)</span><span class="label-short">Mapamundi</span></button>
-        <button type="button" class="nav-tab" data-view="network" aria-pressed="false"><span class="label-full">Red "Connected Labs"</span><span class="label-short">Red Labs</span></button>
-        <button type="button" class="nav-tab" data-view="directory" aria-pressed="false"><span class="label-full">Directorio y Postulaciones</span><span class="label-short">Directorio</span></button>
+      <nav class="primary-nav" id="primary-nav" aria-label="Main views">
+        <button type="button" class="nav-tab" data-view="map" aria-pressed="true"><span class="label-full" id="nav-map-full">World Map (Country / State)</span><span class="label-short" id="nav-map-short">World Map</span></button>
+        <button type="button" class="nav-tab" data-view="network" aria-pressed="false"><span class="label-full" id="nav-net-full">"Connected Labs" Network</span><span class="label-short" id="nav-net-short">Lab Network</span></button>
+        <button type="button" class="nav-tab" data-view="directory" aria-pressed="false"><span class="label-full" id="nav-dir-full">Directory &amp; Applications</span><span class="label-short" id="nav-dir-short">Directory</span></button>
       </nav>
 
       <div class="header-actions">
-        <button type="button" class="btn" id="btn-shortlist-filter" aria-pressed="false" aria-label="Filtrar Mis Objetivos">
-          ⭐ <span class="label-full">Mis Objetivos </span>(<span id="shortlist-count">0</span>)
-        </button>
-        <button type="button" class="btn" commandfor="settings-dialog" command="show-modal" id="btn-open-settings" aria-label="Tema y Metodología">
-          <span class="label-full">Tema y Metodología</span><span class="label-short">Tema</span>
-        </button>
+        <a class="contact-pill" id="header-contact-link" href="mailto:simonsnm@gmail.com?subject=Auditory%20Atlas%20Feedback" aria-label="Questions and suggestions: email simonsnm@gmail.com">
+          <span aria-hidden="true">✉</span>
+          <span id="header-contact-text">Questions &amp; suggestions: <strong>simonsnm@gmail.com</strong></span>
+        </a>
+        <div class="header-utility-btns">
+          <button type="button" class="btn lang-toggle-btn" id="btn-lang-toggle" aria-label="Switch language to Spanish" title="Switch language / Cambiar idioma">
+            <span class="lang-opt is-active" data-lang-opt="en">EN</span><span class="lang-sep">/</span><span class="lang-opt" data-lang-opt="es">ES</span>
+          </button>
+          <button type="button" class="btn" id="btn-shortlist-filter" aria-pressed="false" aria-label="Filter Shortlist">
+            ⭐ <span class="label-full" id="shortlist-btn-label">Shortlist </span>(<span id="shortlist-count">0</span>)
+          </button>
+          <button type="button" class="btn" commandfor="settings-dialog" command="show-modal" id="btn-open-settings" aria-label="Theme, Methodology &amp; Contact">
+            <span class="label-full" id="settings-btn-full">Theme &amp; Info</span><span class="label-short" id="settings-btn-short">Theme</span>
+          </button>
+        </div>
       </div>
     </header>
 
-    <aside class="sidebar" aria-label="Filtros y lista de laboratorios">
+    <aside class="sidebar" id="sidebar-panel" aria-label="Filters and laboratory list">
       <search class="search-box">
         <div class="field-group">
-          <label class="field-label" for="search-input">Buscar investigador, institución, ciudad o método</label>
+          <label class="field-label" for="search-input" id="lbl-search-input">Search PI, institution, city, or method</label>
           <div class="mobile-search-row">
-            <input class="control-input" type="search" id="search-input" placeholder="Ej. Sitek, 7T MRI, Boston, ABR...">
+            <input class="control-input" type="search" id="search-input" placeholder="e.g. Sitek, 7T MRI, Boston, ABR...">
             <button type="button" class="btn btn-sm mobile-only-ctrl mobile-toggle-btn" id="btn-mobile-filters" aria-expanded="false" aria-controls="filters-collapsible">
-              Filtros <span id="mobile-filter-badge" class="mobile-count-pill" hidden></span>
+              <span id="mobile-filters-text">Filters</span> <span id="mobile-filter-badge" class="mobile-count-pill" hidden></span>
             </button>
             <button type="button" class="btn btn-sm mobile-only-ctrl mobile-toggle-btn" id="btn-mobile-list" aria-expanded="false" aria-controls="sidebar-list-panel">
-              Lista (<span id="mobile-list-count">178</span>)
+              <span id="mobile-list-text">List</span> (<span id="mobile-list-count">178</span>)
             </button>
           </div>
         </div>
@@ -1504,35 +1614,35 @@
         <div id="filters-collapsible" class="filters-collapsible">
           <div class="geo-select-row">
             <div class="field-group">
-              <label class="field-label" for="country-filter">País</label>
+              <label class="field-label" for="country-filter" id="lbl-country-filter">Country</label>
               <select class="control-select" id="country-filter">
-                <option value="">Todos</option>
+                <option value="" id="opt-country-all">All</option>
               </select>
             </div>
             <div class="field-group">
-              <label class="field-label" for="state-filter">Estado (EE.UU.)</label>
+              <label class="field-label" for="state-filter" id="lbl-state-filter">State (US)</label>
               <select class="control-select" id="state-filter">
-                <option value="">Todos</option>
+                <option value="" id="opt-state-all">All</option>
               </select>
             </div>
           </div>
 
           <div class="field-group">
-            <span class="field-label">Pilar de investigación</span>
-            <div class="pillar-filters" id="pillar-filters" role="group" aria-label="Filtrar por pilar de investigación"></div>
+            <span class="field-label" id="lbl-pillar-group">Research pillar</span>
+            <div class="pillar-filters" id="pillar-filters" role="group" aria-label="Filter by research pillar"></div>
           </div>
 
           <div class="field-group">
-            <span class="field-label">Perfil del laboratorio</span>
-            <div class="pillar-filters" id="tier-filters" role="group" aria-label="Filtrar por perfil del laboratorio">
-              <button type="button" class="pillar-pill" data-tier="all" aria-pressed="true" id="tier-btn-all">Todos</button>
-              <button type="button" class="pillar-pill" data-tier="flagship" aria-pressed="false" id="tier-btn-flagship">Consolidados</button>
-              <button type="button" class="pillar-pill" data-tier="specialized" aria-pressed="false" id="tier-btn-specialized">Especializados / Emergentes</button>
+            <span class="field-label" id="lbl-tier-group">Lab profile</span>
+            <div class="pillar-filters" id="tier-filters" role="group" aria-label="Filter by lab profile">
+              <button type="button" class="pillar-pill" data-tier="all" aria-pressed="true" id="tier-btn-all">All</button>
+              <button type="button" class="pillar-pill" data-tier="flagship" aria-pressed="false" id="tier-btn-flagship">Established</button>
+              <button type="button" class="pillar-pill" data-tier="specialized" aria-pressed="false" id="tier-btn-specialized">Specialized</button>
             </div>
           </div>
 
           <div class="field-group">
-            <label class="field-label" for="fit-slider">Afinidad mínima ABR + MRI + Aging</label>
+            <label class="field-label" for="fit-slider" id="lbl-fit-slider" title="Thematic keyword overlap with ABR/brainstem + MRI + aging profile — not a quality ranking.">Min. ABR + MRI + Aging match</label>
             <div class="range-row">
               <input type="range" id="fit-slider" min="0" max="90" step="10" value="0">
               <span class="range-val" id="fit-slider-val">0%</span>
@@ -1540,62 +1650,62 @@
           </div>
 
           <div class="field-group">
-            <label class="field-label" for="sort-sidebar">Ordenar lista</label>
+            <label class="field-label" for="sort-sidebar" id="lbl-sort-sidebar">Sort list</label>
             <select class="control-select" id="sort-sidebar">
-              <option value="fit">Mayor afinidad ABR + MRI + Aging</option>
-              <option value="cited">Mayor citación total</option>
-              <option value="hindex">Mayor h-index</option>
-              <option value="country">País / Estado (A–Z)</option>
-              <option value="name">Nombre del PI (A–Z)</option>
+              <option value="fit" id="sort-opt-fit">Highest ABR + MRI + Aging match</option>
+              <option value="cited" id="sort-opt-cited">Most total citations</option>
+              <option value="hindex" id="sort-opt-hindex">Highest h-index</option>
+              <option value="country" id="sort-opt-country">Country / State (A–Z)</option>
+              <option value="name" id="sort-opt-name">PI name (A–Z)</option>
             </select>
           </div>
 
           <details class="geo-summary-details">
-            <summary>Explorar por País o Estado de EE.UU.</summary>
+            <summary id="summary-browse-geo">Browse by Country or US State</summary>
             <div class="geo-chips" id="geo-chips"></div>
           </details>
 
           <div class="toolbar-group mobile-only-flex mobile-filter-actions">
-            <button type="button" class="btn btn-sm" id="btn-reset-filters-mobile">Limpiar filtros</button>
-            <button type="button" class="btn btn-sm btn-primary" id="btn-close-filters-mobile">Ver resultados en mapa</button>
+            <button type="button" class="btn btn-sm" id="btn-reset-filters-mobile">Clear filters</button>
+            <button type="button" class="btn btn-sm btn-primary" id="btn-close-filters-mobile">Show results on map</button>
           </div>
         </div>
       </search>
 
       <div id="sidebar-list-panel" class="sidebar-list-panel">
         <div class="lab-list-header">
-          <span id="filtered-count-label">Mostrando laboratorios...</span>
-          <button type="button" class="btn btn-sm" id="btn-reset-filters">Limpiar filtros</button>
+          <span id="filtered-count-label">Showing labs...</span>
+          <button type="button" class="btn btn-sm" id="btn-reset-filters">Clear filters</button>
         </div>
         <ul class="lab-list" id="lab-list"></ul>
       </div>
     </aside>
 
     <main id="main-content" class="main-stage" tabindex="-1">
-      <section id="view-map" class="stage-panel is-active" aria-label="Mapamundi interactivo de laboratorios de audición">
+      <section id="view-map" class="stage-panel is-active" aria-label="Interactive world map of auditory research labs">
         <div class="stage-toolbar">
-          <div class="toolbar-group region-scroll-group" role="group" aria-label="Regiones rápidas">
-            <button type="button" class="btn btn-sm" data-region="world">Mundo</button>
-            <button type="button" class="btn btn-sm" data-region="usa">EE.UU. (Estados)</button>
-            <button type="button" class="btn btn-sm" data-region="canada">Canadá</button>
-            <button type="button" class="btn btn-sm" data-region="uk">Reino Unido</button>
-            <button type="button" class="btn btn-sm" data-region="europe">Europa</button>
-            <button type="button" class="btn btn-sm" data-region="latam">Latinoamérica</button>
-            <button type="button" class="btn btn-sm" data-region="apac">Asia-Pacífico &amp; Israel</button>
+          <div class="toolbar-group region-scroll-group" id="region-toolbar" role="group" aria-label="Quick regions">
+            <button type="button" class="btn btn-sm" data-region="world" id="reg-btn-world">World</button>
+            <button type="button" class="btn btn-sm" data-region="usa" id="reg-btn-usa">US (States)</button>
+            <button type="button" class="btn btn-sm" data-region="canada" id="reg-btn-canada">Canada</button>
+            <button type="button" class="btn btn-sm" data-region="uk" id="reg-btn-uk">UK</button>
+            <button type="button" class="btn btn-sm" data-region="europe" id="reg-btn-europe">Europe</button>
+            <button type="button" class="btn btn-sm" data-region="latam" id="reg-btn-latam">Latin America</button>
+            <button type="button" class="btn btn-sm" data-region="apac" id="reg-btn-apac">Asia-Pacific &amp; Israel</button>
           </div>
           <div class="toolbar-group toolbar-spacer">
-            <button type="button" class="btn btn-sm" id="btn-toggle-arcs" aria-pressed="true">Arcos de conexión</button>
+            <button type="button" class="btn btn-sm" id="btn-toggle-arcs" aria-pressed="true">Connection arcs</button>
             <div class="toolbar-group">
-              <button type="button" class="btn btn-sm" id="btn-map-zoom-in" aria-label="Acercar mapa">+</button>
-              <button type="button" class="btn btn-sm" id="btn-map-zoom-out" aria-label="Alejar mapa">−</button>
-              <button type="button" class="btn btn-sm" id="btn-map-reset">Centrar</button>
+              <button type="button" class="btn btn-sm" id="btn-map-zoom-in" aria-label="Zoom in map">+</button>
+              <button type="button" class="btn btn-sm" id="btn-map-zoom-out" aria-label="Zoom out map">−</button>
+              <button type="button" class="btn btn-sm" id="btn-map-reset">Reset view</button>
             </div>
           </div>
         </div>
 
         <div class="canvas-wrap" id="map-container">
-          <svg id="world-map-svg" class="map-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mapa mundial interactivo de laboratorios de investigación auditiva">
-            <title>Mapa mundial y estados de EE.UU. con laboratorios de investigación auditiva</title>
+          <svg id="world-map-svg" class="map-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Interactive world map of auditory neuroscience laboratories">
+            <title id="map-svg-title">World map and US states showing auditory research laboratories</title>
             <g id="map-viewport">
               <g id="layer-countries"></g>
               <g id="layer-states"></g>
@@ -1609,63 +1719,63 @@
         <div class="map-legend-strip" id="map-legend"></div>
       </section>
 
-      <section id="view-network" class="stage-panel" aria-label="Red Connected Labs de colaboración y similitud bibliográfica">
+      <section id="view-network" class="stage-panel" aria-label="Connected Labs collaboration and bibliographic similarity network">
         <div class="stage-toolbar">
           <div class="toolbar-group">
-            <button type="button" class="btn btn-sm" id="btn-net-ego" aria-pressed="true">Órbita "Connected Labs"</button>
-            <button type="button" class="btn btn-sm" id="btn-net-global" aria-pressed="false">Red Global</button>
+            <button type="button" class="btn btn-sm" id="btn-net-ego" aria-pressed="true">"Connected Labs" Orbit</button>
+            <button type="button" class="btn btn-sm" id="btn-net-global" aria-pressed="false">Global Network</button>
           </div>
           <div class="toolbar-group toolbar-spacer">
             <div class="toolbar-group">
-              <label class="field-label" for="net-edge-mode">Conexiones:</label>
+              <label class="field-label" for="net-edge-mode" id="lbl-net-edge-mode">Links:</label>
               <select class="control-select net-select" id="net-edge-mode">
-                <option value="both">Coautoría + Similitud</option>
-                <option value="coauthor">Solo Coautorías verificadas</option>
-                <option value="similarity">Solo Similitud bibliográfica</option>
+                <option value="both" id="net-opt-both">Coauthorship + Similarity</option>
+                <option value="coauthor" id="net-opt-coauthor">Verified coauthorships only</option>
+                <option value="similarity" id="net-opt-similarity">Bibliographic similarity only</option>
               </select>
             </div>
             <div class="toolbar-group">
-              <button type="button" class="btn btn-sm" id="btn-net-zoom-in" aria-label="Acercar red">+</button>
-              <button type="button" class="btn btn-sm" id="btn-net-zoom-out" aria-label="Alejar red">−</button>
-              <button type="button" class="btn btn-sm" id="btn-net-reset">Reencuadrar</button>
+              <button type="button" class="btn btn-sm" id="btn-net-zoom-in" aria-label="Zoom in network">+</button>
+              <button type="button" class="btn btn-sm" id="btn-net-zoom-out" aria-label="Zoom out network">−</button>
+              <button type="button" class="btn btn-sm" id="btn-net-reset">Re-center</button>
             </div>
           </div>
         </div>
 
         <div class="canvas-wrap" id="network-container">
-          <canvas id="network-canvas" class="network-canvas" aria-label="Grafo interactivo Connected Labs"></canvas>
+          <canvas id="network-canvas" class="network-canvas" aria-label="Interactive Connected Labs network graph"></canvas>
           <div class="floating-tooltip" id="network-tooltip" hidden></div>
         </div>
 
-        <div class="map-legend-strip">
-          <span class="legend-item"><strong class="legend-coauthor">━━</strong> Coautoría verificada (papers conjuntos)</span>
-          <span class="legend-item"><strong class="legend-sim">╌╌</strong> Similitud bibliográfica / temática (Connected Papers)</span>
-          <span class="legend-item">Clic: inspeccionar · Doble clic: centrar órbita en ese laboratorio</span>
+        <div class="map-legend-strip" id="network-legend">
+          <span class="legend-item"><strong class="legend-coauthor">━━</strong> <span id="net-leg-coauthor">Verified coauthorship (joint papers)</span></span>
+          <span class="legend-item"><strong class="legend-sim">╌╌</strong> <span id="net-leg-sim">Bibliographic / topic similarity (Connected Papers style)</span></span>
+          <span class="legend-item" id="net-leg-hint">Click: inspect · Double-click: center orbit on lab</span>
         </div>
       </section>
 
-      <section id="view-directory" class="stage-panel" aria-label="Directorio ordenable y gestor de postulaciones">
+      <section id="view-directory" class="stage-panel" aria-label="Sortable directory and application manager">
         <div class="stage-toolbar">
-          <span class="field-label" id="dir-summary-text">Directorio completo</span>
+          <span class="field-label" id="dir-summary-text">Full directory</span>
           <div class="toolbar-group toolbar-spacer">
-            <button type="button" class="btn btn-sm" id="btn-export-csv"><span class="label-full">Exportar CSV (Filtrados / Guardados)</span><span class="label-short">Exportar CSV</span></button>
-            <button type="button" class="btn btn-sm" id="btn-export-json">Exportar JSON</button>
+            <button type="button" class="btn btn-sm" id="btn-export-csv"><span class="label-full" id="export-csv-full">Export CSV (Filtered / Shortlisted)</span><span class="label-short" id="export-csv-short">Export CSV</span></button>
+            <button type="button" class="btn btn-sm" id="btn-export-json">Export JSON</button>
           </div>
         </div>
 
         <div class="directory-wrap">
           <div class="table-region" role="region" aria-labelledby="dir-table-caption" tabindex="0">
             <table class="labs-table" id="labs-table">
-              <caption id="dir-table-caption">Directorio mundial de laboratorios de audición ordenable por país, estado, métricas y afinidad</caption>
+              <caption id="dir-table-caption">Global auditory neuroscience lab directory sortable by country, state, metrics, and topic match</caption>
               <thead>
                 <tr>
-                  <th scope="col" data-type="text"><button type="button" commandfor="labs-table" command="--sort">Investigador / Institución</button></th>
-                  <th scope="col" data-type="text"><button type="button" commandfor="labs-table" command="--sort">País / Estado</button></th>
-                  <th scope="col" data-type="text"><button type="button" commandfor="labs-table" command="--sort">Pilar</button></th>
-                  <th scope="col" data-type="number" aria-sort="descending"><button type="button" commandfor="labs-table" command="--sort">Afinidad ABR+MRI</button></th>
-                  <th scope="col" data-type="number"><button type="button" commandfor="labs-table" command="--sort">h-index</button></th>
-                  <th scope="col" data-type="number"><button type="button" commandfor="labs-table" command="--sort">Citas</button></th>
-                  <th scope="col">Enlaces &amp; Shortlist</th>
+                  <th scope="col" data-type="text"><button type="button" commandfor="labs-table" command="--sort" id="th-btn-pi">Researcher / Institution</button></th>
+                  <th scope="col" data-type="text"><button type="button" commandfor="labs-table" command="--sort" id="th-btn-loc">Country / State</button></th>
+                  <th scope="col" data-type="text"><button type="button" commandfor="labs-table" command="--sort" id="th-btn-pillar">Pillar</button></th>
+                  <th scope="col" data-type="number" aria-sort="descending" id="th-fit-col"><button type="button" commandfor="labs-table" command="--sort" id="th-btn-fit" title="Thematic keyword overlap with ABR + MRI + aging profile — not a quality ranking.">ABR+MRI Match</button></th>
+                  <th scope="col" data-type="number"><button type="button" commandfor="labs-table" command="--sort" id="th-btn-hindex">h-index</button></th>
+                  <th scope="col" data-type="number"><button type="button" commandfor="labs-table" command="--sort" id="th-btn-cited">Citations</button></th>
+                  <th scope="col" id="th-actions-col">Links &amp; Shortlist</th>
                 </tr>
               </thead>
               <tbody id="labs-tbody"></tbody>
@@ -1677,44 +1787,60 @@
       <div class="mobile-jump-bar mobile-only-flex" id="mobile-jump-bar">
         <div class="mobile-jump-info">
           <strong id="mobile-jump-name">Kevin R. Sitek</strong>
-          <span id="mobile-jump-sub">Northwestern University · Afinidad 99%</span>
+          <span id="mobile-jump-sub">Northwestern University · Topic match 99%</span>
         </div>
-        <button type="button" class="btn btn-sm btn-primary" id="btn-jump-inspector">Ver ficha ↓</button>
+        <button type="button" class="btn btn-sm btn-primary" id="btn-jump-inspector">View details ↓</button>
       </div>
     </main>
 
-    <aside class="inspector" id="inspector-panel" aria-label="Detalle del laboratorio seleccionado">
+    <aside class="inspector" id="inspector-panel" aria-label="Selected laboratory details">
       <div id="inspector-content"></div>
+      <footer class="insp-footer" id="inspector-footer">
+        <div id="insp-footer-contact">Questions, feedback, or missing auditory labs? <a href="mailto:simonsnm@gmail.com?subject=Auditory%20Atlas%20Feedback"><strong>simonsnm@gmail.com</strong></a></div>
+        <div class="insp-footer-links">
+          <button type="button" class="link-btn" id="insp-open-settings-btn">Methodology, Fit Index Note &amp; Data Sources</button>
+          <a href="https://github.com/Simoncio-art/auditory-labs-atlas" target="_blank" rel="noopener noreferrer" id="insp-github-link">GitHub</a>
+        </div>
+      </footer>
     </aside>
   </div>
 
   <dialog id="settings-dialog" closedby="any" aria-labelledby="settings-title">
     <div class="dialog-body">
-      <h2 id="settings-title">Tema, Leyenda y Metodología Verificada</h2>
+      <h2 id="settings-title">Theme, Legend &amp; Verified Methodology</h2>
 
       <div>
-        <h3 class="sec-heading">Tema de color</h3>
-        <div class="theme-radios" id="theme-controls" role="radiogroup" aria-label="Seleccionar tema visual">
-          <label class="theme-opt"><input type="radio" name="theme-mode" value="system"> Sistema (<span id="system-theme-label"></span>)</label>
-          <label class="theme-opt"><input type="radio" name="theme-mode" value="light"> Claro</label>
-          <label class="theme-opt"><input type="radio" name="theme-mode" value="dark"> Oscuro</label>
+        <h3 class="sec-heading" id="dlg-heading-theme">Color theme</h3>
+        <div class="theme-radios" id="theme-controls" role="radiogroup" aria-label="Select visual theme">
+          <label class="theme-opt"><input type="radio" name="theme-mode" value="system"> <span id="theme-opt-system-prefix">System</span> (<span id="system-theme-label"></span>)</label>
+          <label class="theme-opt"><input type="radio" name="theme-mode" value="light"> <span id="theme-opt-light-text">Light</span></label>
+          <label class="theme-opt"><input type="radio" name="theme-mode" value="dark"> <span id="theme-opt-dark-text">Dark</span></label>
         </div>
       </div>
 
       <div>
-        <h3 class="sec-heading">Pilares de Investigación (Color + Forma accesible)</h3>
+        <h3 class="sec-heading" id="dlg-heading-pillars">Research Pillars (Color + Accessible Shape)</h3>
         <ul id="dialog-legend-list" class="dialog-list"></ul>
       </div>
 
       <div>
-        <h3 class="sec-heading">Fuente y cálculo tipo "Connected Papers"</h3>
+        <h3 class="sec-heading" id="dlg-heading-method">Data Sources &amp; "Connected Papers" Graph</h3>
         <p class="dialog-prose" id="dialog-methodology-prose">
-          Cargando metodología y estadísticas verificadas...
+          Loading verified methodology and statistics...
+        </p>
+        <div class="dialog-callout" id="dialog-fit-note"></div>
+        <p class="dialog-prose" id="dialog-privacy-note"></p>
+      </div>
+
+      <div>
+        <h3 class="sec-heading" id="dlg-heading-contact">Questions, Feedback &amp; Lab Suggestions</h3>
+        <p class="dialog-prose" id="dialog-contact-prose">
+          Questions, corrections, or missing auditory neuroscience laboratories? Write to <a href="mailto:simonsnm@gmail.com?subject=Auditory%20Atlas%20Feedback"><strong>simonsnm@gmail.com</strong></a> or contribute via the <a href="https://github.com/Simoncio-art/auditory-labs-atlas" target="_blank" rel="noopener noreferrer">GitHub repository</a>.
         </p>
       </div>
 
       <form method="dialog" class="dialog-actions">
-        <button type="submit" class="btn btn-primary" autofocus>Cerrar</button>
+        <button type="submit" class="btn btn-primary" id="btn-dialog-close" autofocus>Close</button>
       </form>
     </div>
   </dialog>
@@ -1735,12 +1861,396 @@
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;");
 
-      const PILLARS = {
-        abr_eeg: { label: "ABR, EEG/MEG y Timing Neural", short: "ABR / EEG / MEG", colorVar: "var(--p-abr)", hexLight: "#0072B2", hexDark: "#56B4E9", shape: "circle" },
-        mri_neuroanatomy: { label: "MRI Auditiva (3T/7T) y Neuroanatomía", short: "MRI / Neuroanatomía", colorVar: "var(--p-mri)", hexLight: "#007E5D", hexDark: "#2dd4bf", shape: "diamond" },
-        cochlear_efferent: { label: "Cóclea, Eferente MOC y Sinaptopatía", short: "Cóclea / Eferente MOC", colorVar: "var(--p-cochlea)", hexLight: "#C24D00", hexDark: "#fb923c", shape: "hexagon" },
-        aging_tinnitus: { label: "Envejecimiento, Cognición y Tinnitus", short: "Aging / Tinnitus", colorVar: "var(--p-aging)", hexLight: "#A84B82", hexDark: "#f472b6", shape: "square" },
-        ci_psychoacoustics: { label: "Implantes Cocleares, Habla y Modelado", short: "Implantes / Psicoacústica", colorVar: "var(--p-ci)", hexLight: "#A36A00", hexDark: "#fbbf24", shape: "triangle" }
+      const STORAGE_SHORTLIST = "auditory-atlas-shortlist-v1";
+      const STORAGE_NOTES = "auditory-atlas-notes-v1";
+      const STORAGE_LANG = "auditory-atlas-lang";
+      const initialParams = new URLSearchParams(window.location.search);
+
+      const resolveInitialLang = () => {
+        const ql = initialParams.get("lang");
+        if (ql === "en" || ql === "es") return ql;
+        try {
+          const saved = localStorage.getItem(STORAGE_LANG);
+          if (saved === "en" || saved === "es") return saved;
+        } catch {}
+        return (navigator.language || "").toLowerCase().startsWith("es") ? "es" : "en";
+      };
+
+      const PILLAR_DEFS = {
+        abr_eeg: {
+          en: { label: "ABR, EEG/MEG & Neural Timing", short: "ABR / EEG / MEG" },
+          es: { label: "ABR, EEG/MEG y Timing Neural", short: "ABR / EEG / MEG" },
+          colorVar: "var(--p-abr)", hexLight: "#0072B2", hexDark: "#56B4E9", shape: "circle"
+        },
+        mri_neuroanatomy: {
+          en: { label: "Auditory MRI (3T/7T) & Neuroanatomy", short: "MRI / Neuroanatomy" },
+          es: { label: "MRI Auditiva (3T/7T) y Neuroanatomía", short: "MRI / Neuroanatomía" },
+          colorVar: "var(--p-mri)", hexLight: "#007E5D", hexDark: "#2dd4bf", shape: "diamond"
+        },
+        cochlear_efferent: {
+          en: { label: "Cochlea, MOC Efferent & Synaptopathy", short: "Cochlea / MOC Efferent" },
+          es: { label: "Cóclea, Eferente MOC y Sinaptopatía", short: "Cóclea / Eferente MOC" },
+          colorVar: "var(--p-cochlea)", hexLight: "#C24D00", hexDark: "#fb923c", shape: "hexagon"
+        },
+        aging_tinnitus: {
+          en: { label: "Aging, Cognition & Tinnitus", short: "Aging / Tinnitus" },
+          es: { label: "Envejecimiento, Cognición y Tinnitus", short: "Aging / Tinnitus" },
+          colorVar: "var(--p-aging)", hexLight: "#A84B82", hexDark: "#f472b6", shape: "square"
+        },
+        ci_psychoacoustics: {
+          en: { label: "Cochlear Implants, Speech & Modeling", short: "Implants / Psychoacoustics" },
+          es: { label: "Implantes Cocleares, Habla y Modelado", short: "Implantes / Psicoacústica" },
+          colorVar: "var(--p-ci)", hexLight: "#A36A00", hexDark: "#fbbf24", shape: "triangle"
+        }
+      };
+
+      const I18N = {
+        en: {
+          pageTitle: "Auditory Atlas | Global Map & Network of Auditory Neuroscience Labs",
+          skipLink: "Skip to main content",
+          brandSub: " — Global Map & Network of Auditory Labs",
+          headerMeta: (tot, fl, sp, c, s, co, sim) =>
+            `${tot} labs (${fl} established + ${sp} specialized) · ${c} countries · ${s} US states · ${co} coauthorships + ${sim} similarities`,
+          primaryNavAria: "Main views",
+          navMapFull: "World Map (Country / State)",
+          navMapShort: "World Map",
+          navNetFull: '"Connected Labs" Network',
+          navNetShort: "Lab Network",
+          navDirFull: "Directory & Applications",
+          navDirShort: "Directory",
+          langToggleAria: "Switch interface language to Spanish",
+          shortlistAria: "Filter Shortlist",
+          shortlistLabel: "Shortlist ",
+          settingsAria: "Theme, Methodology & Contact",
+          settingsFull: "Theme & Info",
+          settingsShort: "Theme",
+          sidebarAria: "Filters and laboratory list",
+          lblSearch: "Search PI, institution, city, or method",
+          searchPlaceholder: "e.g. Sitek, 7T MRI, Boston, ABR...",
+          mobileFilters: "Filters",
+          mobileList: "List",
+          lblCountry: "Country",
+          allOption: "All",
+          lblState: "State (US)",
+          lblPillarGroup: "Research pillar",
+          pillarGroupAria: "Filter by research pillar",
+          pillarAll: "All",
+          lblTierGroup: "Lab profile",
+          tierGroupAria: "Filter by lab profile",
+          tierBtnAll: (tot) => `All (${tot})`,
+          tierBtnFlagship: (fl) => `Established (${fl})`,
+          tierBtnSpecialized: (sp) => `Specialized (${sp})`,
+          tierShortSpec: "Specialized",
+          tierShortEst: "Established",
+          tierFullSpec: "Specialized / Emerging",
+          tierFullEst: "Established Center",
+          lblFitSlider: "Min. ABR + MRI + Aging match",
+          fitTooltip: "Thematic keyword overlap with ABR/brainstem + MRI + aging profile — not a quality or prestige ranking.",
+          lblSortSidebar: "Sort list",
+          sortFit: "Highest ABR + MRI + Aging match",
+          sortCited: "Most total citations",
+          sortHindex: "Highest h-index",
+          sortCountry: "Country / State (A–Z)",
+          sortName: "PI name (A–Z)",
+          summaryBrowseGeo: "Browse by Country or US State",
+          usPrefix: "US",
+          btnResetFilters: "Clear filters",
+          btnCloseFiltersMobile: "Show results on map",
+          viewMapAria: "Interactive world map of auditory research labs",
+          regionToolbarAria: "Quick regions",
+          regWorld: "World",
+          regUsa: "US (States)",
+          regCanada: "Canada",
+          regUk: "UK",
+          regEurope: "Europe",
+          regLatam: "Latin America",
+          regApac: "Asia-Pacific & Israel",
+          btnArcs: "Connection arcs",
+          zoomInMapAria: "Zoom in map",
+          zoomOutMapAria: "Zoom out map",
+          btnMapReset: "Reset view",
+          mapSvgAria: "Interactive world map of auditory neuroscience laboratories",
+          mapSvgTitle: "World map and US states showing auditory research laboratories",
+          viewNetAria: "Connected Labs collaboration and bibliographic similarity network",
+          btnNetEgo: '"Connected Labs" Orbit',
+          btnNetGlobal: (tot) => `Global Network (${tot} labs)`,
+          lblNetEdgeMode: "Links:",
+          netOptBoth: "Coauthorship + Similarity",
+          netOptCoauthor: "Verified coauthorships only",
+          netOptSimilarity: "Bibliographic similarity only",
+          zoomInNetAria: "Zoom in network",
+          zoomOutNetAria: "Zoom out network",
+          btnNetReset: "Re-center",
+          netCanvasAria: "Interactive Connected Labs network graph",
+          netLegCoauthor: "Verified coauthorship (joint papers)",
+          netLegSim: "Bibliographic / topic similarity (Connected Papers style)",
+          netLegHint: "Click: inspect · Double-click: center orbit on lab",
+          viewDirAria: "Sortable directory and application manager",
+          exportCsvFull: "Export CSV (Filtered / Shortlisted)",
+          exportCsvShort: "Export CSV",
+          exportJson: "Export JSON",
+          dirCaption: "Global auditory neuroscience lab directory sortable by country, state, metrics, and topic match",
+          thPi: "Researcher / Institution",
+          thLoc: "Country / State",
+          thPillar: "Pillar",
+          thFit: "ABR+MRI Match",
+          thHindex: "h-index",
+          thCited: "Citations",
+          thActions: "Links & Shortlist",
+          colLabelFit: "Topic Match",
+          colLabelH: "h-index",
+          colLabelCited: "Citations",
+          tblWeb: "Web",
+          tblCareers: "Careers",
+          tblGraph: "Graph",
+          tblStarAdd: "Add to shortlist",
+          tblStarRemove: "Remove from shortlist",
+          btnJumpInspector: "View details ↓",
+          inspectorAria: "Selected laboratory details",
+          inspOpenSettings: "Methodology, Fit Index Note & Data Sources",
+          dlgTitle: "Theme, Legend & Verified Methodology",
+          dlgHeadingTheme: "Color theme",
+          themeGroupAria: "Select visual theme",
+          themeSystem: "System",
+          themeLight: "Light",
+          themeDark: "Dark",
+          sysDarkNow: "dark now",
+          sysLightNow: "light now",
+          dlgHeadingPillars: "Research Pillars (Color + Accessible Shape)",
+          dlgHeadingMethod: 'Data Sources & "Connected Papers" Graph',
+          dlgMethodProse: (tot, fl, sp, co, sim, works, snap) =>
+            `The ${tot} laboratories (${fl} established centers and ${sp} specialized or emerging groups), bibliometrics (<em>h-index</em>, citations, works), verified coauthorships (${co} joint pairs), and bibliographic/topical similarity bridges (${sim} links computed via shared references + topic cosine similarity across ${works} publications from 2014–2026; snapshot ${snap}) were verified directly against <strong>OpenAlex</strong>, <strong>Europe PMC</strong>, and <strong>ORCID</strong>.`,
+          dlgFitNote:
+            '<strong>About the "ABR + MRI + Aging Match (%)" score:</strong> This index measures strictly <em>thematic keyword overlap</em> across recent publications and topics (auditory brainstem/ABR/FFR, structural/functional MRI, and auditory aging/tinnitus). It is <strong>not</strong> a measure of lab scientific quality, prestige, or mentorship.',
+          dlgPrivacyNote:
+            "<strong>Privacy:</strong> Personal shortlists and application notes are stored strictly locally in your browser (<code>localStorage</code>) and are never uploaded or shared.",
+          dlgHeadingContact: "Questions, Feedback & Lab Suggestions",
+          dlgContactHtml:
+            'Questions, suggestions, corrections, or missing auditory neuroscience laboratories? Please email <a href="mailto:simonsnm@gmail.com?subject=Auditory%20Atlas%20Feedback"><strong>simonsnm@gmail.com</strong></a> or open an issue/PR in the <a href="https://github.com/Simoncio-art/auditory-labs-atlas" target="_blank" rel="noopener noreferrer">GitHub repository</a>.',
+          btnClose: "Close",
+          showingLabs: (vis, tot) => `Showing ${vis} of ${tot}`,
+          dirSummary: (vis) => `${vis} laboratories matching current filters`,
+          announceVisible: (vis) => `${vis} laboratories visible`,
+          announceSelected: (name, inst) => `Selected ${name}, ${inst}`,
+          announceSorted: (col, asc, rows) => `Sorted by ${col}, ${asc ? "ascending" : "descending"}, ${rows} rows`,
+          announceCopied: (name) => `Direct link copied for ${name}`,
+          mapTipLab: (n, tier) =>
+            `<strong>${escHtml(n.name)}</strong> (${escHtml(tier)})<br>${escHtml(n.institution)}<br><span>${escHtml(n.city)}, ${escHtml(n.state || n.country_display)} · h-index ${n.h_index} · Topic match ${n.fit_score}%</span>`,
+          mapTipState: (st, cnt) =>
+            `<strong>US State: ${escHtml(st)}</strong><br>${cnt} lab${cnt === 1 ? "" : "s"} in atlas`,
+          mapTipCountry: (c, cnt) =>
+            `<strong>${escHtml(c)}</strong><br>${cnt} lab${cnt === 1 ? "" : "s"} in atlas`,
+          netTipCoauthor: (cnt) =>
+            `<br><strong>Connection:</strong> ${cnt} coauthored paper${cnt === 1 ? "" : "s"}`,
+          netTipSim: (pct, refs) =>
+            `<br><strong>Bibliographic similarity:</strong> ${pct}% (${refs} shared references)`,
+          jumpSub: (inst, fit) => `${inst} · Topic match ${fit}%`,
+          inspEmpty: "Select a laboratory on the map or graph.",
+          inspFitLabel: (fit) => `Topic Match: ${fit}%`,
+          inspHiddenMsg: "Hidden from the left list by active filters",
+          inspUnfilter: "Show in list",
+          inspStarred: "★ Shortlisted",
+          inspUnstarred: "☆ Save to Shortlist",
+          inspLocate: "📍 Locate on Map",
+          inspEgo: "Show Orbit",
+          inspShare: "🔗 Copy Link",
+          inspShareCopied: "✓ Link copied!",
+          inspShareFailed: "URL ready in address bar",
+          inspTop: "↑ Back to map",
+          metricsAria: "OpenAlex bibliometric summary",
+          mWorks: "Works",
+          mCites: "Citations",
+          mHindex: "h-index",
+          mCites2y: "Cites/2y",
+          secLinks: "Applications & Profiles",
+          lnkLab: "🌐 Lab / Institution Site",
+          lnkCareers: "💼 Careers / Postdoc Portal",
+          lnkOpenAlex: "📊 OpenAlex Profile",
+          lnkOrcid: "🆔 ORCID",
+          lnkPubMed: "🔬 PubMed",
+          secTopics: "Matched Topics & Methods",
+          secPapers: "Highlighted & Recent Publications",
+          paperCites: (c) => `${c} citations`,
+          secConns: "Connected Labs (Coauthorships & Similarity)",
+          connCoauthor: (cnt, yr) => `Verified coauthorship: ${cnt} joint paper${cnt === 1 ? "" : "s"}${yr ? ` (${yr})` : ""}`,
+          connSim: (pct, refs) => `Bibliographic similarity: ${pct}% (${refs} shared refs)`,
+          connExample: "e.g.",
+          secNotes: "Personal Application Notes",
+          notesPlaceholder: "e.g. Reach out in May for postdoc fellowship / mention ABR-MRI paper...",
+        },
+        es: {
+          pageTitle: "Auditory Atlas | Mapa Mundial y Red de Neurociencia Auditiva",
+          skipLink: "Saltar al contenido principal",
+          brandSub: " — Mapa Global y Red de Neurociencia Auditiva",
+          headerMeta: (tot, fl, sp, c, s, co, sim) =>
+            `${tot} laboratorios (${fl} consolidados + ${sp} especializados) · ${c} países · ${s} estados EE.UU. · ${co} coautorías + ${sim} similitudes`,
+          primaryNavAria: "Vistas principales",
+          navMapFull: "Mapamundi (País / Estado)",
+          navMapShort: "Mapamundi",
+          navNetFull: 'Red "Connected Labs"',
+          navNetShort: "Red Labs",
+          navDirFull: "Directorio y Postulaciones",
+          navDirShort: "Directorio",
+          langToggleAria: "Switch interface language to English",
+          shortlistAria: "Filtrar Objetivos",
+          shortlistLabel: "Objetivos ",
+          settingsAria: "Tema, Metodología y Contacto",
+          settingsFull: "Tema y Ayuda",
+          settingsShort: "Tema",
+          sidebarAria: "Filtros y lista de laboratorios",
+          lblSearch: "Buscar IP, institución, ciudad o método",
+          searchPlaceholder: "Ej. Sitek, 7T MRI, Boston, ABR...",
+          mobileFilters: "Filtros",
+          mobileList: "Lista",
+          lblCountry: "País",
+          allOption: "Todos",
+          lblState: "Estado (EE.UU.)",
+          lblPillarGroup: "Pilar de investigación",
+          pillarGroupAria: "Filtrar por pilar",
+          pillarAll: "Todos",
+          lblTierGroup: "Perfil del laboratorio",
+          tierGroupAria: "Filtrar por perfil",
+          tierBtnAll: (tot) => `Todos (${tot})`,
+          tierBtnFlagship: (fl) => `Consolidados (${fl})`,
+          tierBtnSpecialized: (sp) => `Especializados (${sp})`,
+          tierShortSpec: "Especializado",
+          tierShortEst: "Consolidado",
+          tierFullSpec: "Especializado / Emergente",
+          tierFullEst: "Centro Consolidado",
+          lblFitSlider: "Afinidad mín. ABR + MRI + Aging",
+          fitTooltip: "Coincidencia temática de palabras clave con ABR/tronco + MRI + envejecimiento; no es un ranking de calidad ni prestigio.",
+          lblSortSidebar: "Ordenar lista",
+          sortFit: "Mayor afinidad ABR + MRI + Aging",
+          sortCited: "Más citas totales",
+          sortHindex: "Mayor h-index",
+          sortCountry: "País / Estado (A–Z)",
+          sortName: "Nombre IP (A–Z)",
+          summaryBrowseGeo: "Explorar por País o Estado EE.UU.",
+          usPrefix: "EE.UU.",
+          btnResetFilters: "Limpiar filtros",
+          btnCloseFiltersMobile: "Ver resultados en el mapa",
+          viewMapAria: "Mapa mundial interactivo de laboratorios auditivos",
+          regionToolbarAria: "Regiones rápidas",
+          regWorld: "Mundo",
+          regUsa: "EE.UU. (Estados)",
+          regCanada: "Canadá",
+          regUk: "Reino Unido",
+          regEurope: "Europa",
+          regLatam: "Latinoamérica",
+          regApac: "Asia-Pacífico e Israel",
+          btnArcs: "Arcos de conexión",
+          zoomInMapAria: "Acercar mapa",
+          zoomOutMapAria: "Alejar mapa",
+          btnMapReset: "Restablecer vista",
+          mapSvgAria: "Mapa mundial interactivo de laboratorios de neurociencia auditiva",
+          mapSvgTitle: "Mapamundi y estados de EE.UU. con laboratorios auditivos",
+          viewNetAria: "Red de coautorías y similitud bibliográfica Connected Labs",
+          btnNetEgo: 'Órbita "Connected Labs"',
+          btnNetGlobal: (tot) => `Red Global (${tot} labs)`,
+          lblNetEdgeMode: "Enlaces:",
+          netOptBoth: "Coautoría + Similitud",
+          netOptCoauthor: "Solo coautorías reales",
+          netOptSimilarity: "Solo similitud bibliográfica",
+          zoomInNetAria: "Acercar red",
+          zoomOutNetAria: "Alejar red",
+          btnNetReset: "Re-centrar",
+          netCanvasAria: "Gráfico interactivo de red de laboratorios auditivos",
+          netLegCoauthor: "Coautoría real verificada (papers conjuntos)",
+          netLegSim: "Similitud bibliográfica / temática (estilo Connected Papers)",
+          netLegHint: "Clic: inspeccionar · Doble clic: centrar órbita en el lab",
+          viewDirAria: "Directorio ordenable y gestor de postulaciones",
+          exportCsvFull: "Exportar CSV (Filtrados / Objetivos)",
+          exportCsvShort: "Exportar CSV",
+          exportJson: "Exportar JSON",
+          dirCaption: "Directorio mundial de laboratorios auditivos ordenable por país, estado, métricas y afinidad temática",
+          thPi: "Investigador / Institución",
+          thLoc: "País / Estado",
+          thPillar: "Pilar",
+          thFit: "Afinidad ABR+MRI",
+          thHindex: "h-index",
+          thCited: "Citas",
+          thActions: "Enlaces y Shortlist",
+          colLabelFit: "Afinidad",
+          colLabelH: "h-index",
+          colLabelCited: "Citas",
+          tblWeb: "Web",
+          tblCareers: "Empleos",
+          tblGraph: "Red",
+          tblStarAdd: "Agregar a objetivos",
+          tblStarRemove: "Quitar de objetivos",
+          btnJumpInspector: "Ver detalle ↓",
+          inspectorAria: "Detalle del laboratorio seleccionado",
+          inspOpenSettings: "Metodología, Nota de Afinidad y Fuentes",
+          dlgTitle: "Tema, Leyenda y Metodología Verificada",
+          dlgHeadingTheme: "Tema de color",
+          themeGroupAria: "Seleccionar tema visual",
+          themeSystem: "Sistema",
+          themeLight: "Claro",
+          themeDark: "Oscuro",
+          sysDarkNow: "oscuro ahora",
+          sysLightNow: "claro ahora",
+          dlgHeadingPillars: "Pilares de Investigación (Color + Forma Accesible)",
+          dlgHeadingMethod: 'Fuentes Verificadas y Red "Connected Papers"',
+          dlgMethodProse: (tot, fl, sp, co, sim, works, snap) =>
+            `Los ${tot} laboratorios (${fl} centros consolidados y ${sp} grupos especializados o emergentes), métricas (<em>h-index</em>, citas, trabajos), coautorías (${co} pares reales) y similitudes bibliográficas (${sim} puentes calculados mediante acoplamiento bibliográfico sobre referencias compartidas + similitud de tópicos en ${works} publicaciones de 2014–2026; corte ${snap}) fueron verificados directamente vía <strong>OpenAlex</strong>, <strong>Europe PMC</strong> y <strong>ORCID</strong>.`,
+          dlgFitNote:
+            '<strong>Sobre el índice "Afinidad ABR + MRI + Aging (%)":</strong> Este puntaje mide estrictamente la <em>coincidencia temática</em> de palabras clave en las publicaciones y tópicos recientes de cada grupo (tronco encefálico/ABR/FFR, MRI estructural/funcional y envejecimiento/tinnitus). <strong>No</strong> evalúa calidad científica, mentoría ni prestigio.',
+          dlgPrivacyNote:
+            "<strong>Privacidad:</strong> Tus favoritos y notas personales se guardan estrictamente de forma local en tu navegador (<code>localStorage</code>) y no se envían a ningún servidor externo.",
+          dlgHeadingContact: "Consultas, Sugerencias y Nuevos Laboratorios",
+          dlgContactHtml:
+            '<em>Questions, corrections, or missing auditory labs?</em> ¿Consultas, sugerencias o laboratorios faltantes? Escribe en inglés o español a <a href="mailto:simonsnm@gmail.com?subject=Auditory%20Atlas%20Feedback"><strong>simonsnm@gmail.com</strong></a> o contribuye vía <a href="https://github.com/Simoncio-art/auditory-labs-atlas" target="_blank" rel="noopener noreferrer">GitHub</a>.',
+          btnClose: "Cerrar",
+          showingLabs: (vis, tot) => `Mostrando ${vis} de ${tot}`,
+          dirSummary: (vis) => `${vis} laboratorios coinciden con los filtros`,
+          announceVisible: (vis) => `${vis} laboratorios visibles`,
+          announceSelected: (name, inst) => `Seleccionado ${name}, ${inst}`,
+          announceSorted: (col, asc, rows) => `Ordenado por ${col}, ${asc ? "ascendente" : "descendente"}, ${rows} filas`,
+          announceCopied: (name) => `Enlace directo copiado para ${name}`,
+          mapTipLab: (n, tier) =>
+            `<strong>${escHtml(n.name)}</strong> (${escHtml(tier)})<br>${escHtml(n.institution)}<br><span>${escHtml(n.city)}, ${escHtml(n.state || n.country_display)} · h-index ${n.h_index} · Afinidad ${n.fit_score}%</span>`,
+          mapTipState: (st, cnt) =>
+            `<strong>Estado EE.UU.: ${escHtml(st)}</strong><br>${cnt} laboratorio${cnt === 1 ? "" : "s"} en el atlas`,
+          mapTipCountry: (c, cnt) =>
+            `<strong>${escHtml(c)}</strong><br>${cnt} laboratorio${cnt === 1 ? "" : "s"} en el atlas`,
+          netTipCoauthor: (cnt) =>
+            `<br><strong>Conexión:</strong> ${cnt} paper${cnt === 1 ? "" : "s"} en coautoría`,
+          netTipSim: (pct, refs) =>
+            `<br><strong>Similitud bibliográfica:</strong> ${pct}% (${refs} referencias comunes)`,
+          jumpSub: (inst, fit) => `${inst} · Afinidad ${fit}%`,
+          inspEmpty: "Selecciona un laboratorio en el mapa o grafo.",
+          inspFitLabel: (fit) => `Afinidad temática: ${fit}%`,
+          inspHiddenMsg: "Oculto en la lista izquierda por filtros activos",
+          inspUnfilter: "Mostrar en lista",
+          inspStarred: "★ En tus Objetivos",
+          inspUnstarred: "☆ Guardar en Shortlist",
+          inspLocate: "📍 Ubicar en Mapa",
+          inspEgo: "Ver Órbita",
+          inspShare: "🔗 Copiar enlace",
+          inspShareCopied: "✓ ¡Enlace copiado!",
+          inspShareFailed: "URL lista en barra",
+          inspTop: "↑ Volver al mapa",
+          metricsAria: "Métricas OpenAlex",
+          mWorks: "Trabajos",
+          mCites: "Citas",
+          mHindex: "h-index",
+          mCites2y: "Citas/2a",
+          secLinks: "Enlaces para Postulación / Contacto",
+          lnkLab: "🌐 Web Lab / Institución",
+          lnkCareers: "💼 Portal Empleos / Postdoc",
+          lnkOpenAlex: "📊 Perfil OpenAlex",
+          lnkOrcid: "🆔 ORCID",
+          lnkPubMed: "🔬 PubMed",
+          secTopics: "Tópicos y Métodos Coincidentes",
+          secPapers: "Publicaciones Destacadas y Recientes",
+          paperCites: (c) => `${c} citas`,
+          secConns: "Connected Labs (Coautorías y Similitud)",
+          connCoauthor: (cnt, yr) => `Coautoría verificada: ${cnt} paper${cnt === 1 ? "" : "s"}${yr ? ` (${yr})` : ""}`,
+          connSim: (pct, refs) => `Similitud bibliográfica: ${pct}% (${refs} refs comunes)`,
+          connExample: "Ej.:",
+          secNotes: "Notas personales de postulación",
+          notesPlaceholder: "Ej. Contactar en mayo por beca postdoctoral / mencionar paper ABR-MRI...",
+        }
       };
 
       const nodesById = new Map(ATLAS.nodes.map(n => [n.id, n]));
@@ -1757,8 +2267,6 @@
         });
       }
 
-      const STORAGE_SHORTLIST = "auditory-atlas-shortlist-v1";
-      const STORAGE_NOTES = "auditory-atlas-notes-v1";
       const loadJson = (k, fallback) => {
         try { return JSON.parse(localStorage.getItem(k) || "null") || fallback; } catch { return fallback; }
       };
@@ -1768,10 +2276,9 @@
 
       const tierFiltersEl = document.getElementById("tier-filters");
       const getTier = (n) => (n.tier === "specialized" ? "specialized" : "flagship");
-      const tierLabel = (n) => (getTier(n) === "specialized" ? "Especializado" : "Consolidado");
-      const tierBadgeClass = (n) => (getTier(n) === "specialized" ? "badge badge-tier-spec" : "badge badge-tier-flagship");
 
       const state = {
+        lang: resolveInitialLang(),
         view: "map",
         search: "",
         country: "",
@@ -1793,24 +2300,30 @@
         egoPositions: new Map(),
       };
 
+      const tr = () => I18N[state.lang] || I18N.en;
+      const localeTag = () => (state.lang === "es" ? "es-CL" : "en-US");
+      const getPillar = (key) => {
+        const d = PILLAR_DEFS[key] || PILLAR_DEFS.abr_eeg;
+        const txt = d[state.lang] || d.en;
+        return { ...d, label: txt.label, short: txt.short };
+      };
+      const tierLabel = (n) => (getTier(n) === "specialized" ? tr().tierShortSpec : tr().tierShortEst);
+      const tierFullLabel = (n) => (getTier(n) === "specialized" ? tr().tierFullSpec : tr().tierFullEst);
+      const tierBadgeClass = (n) => (getTier(n) === "specialized" ? "badge badge-tier-spec" : "badge badge-tier-flagship");
+
       const liveStatus = document.getElementById("live-status");
       const announce = (msg) => { liveStatus.textContent = msg; };
 
       const flagshipCount = ATLAS.meta.flagship_labs ?? ATLAS.nodes.filter(n => getTier(n) === "flagship").length;
       const specCount = ATLAS.meta.specialized_labs ?? ATLAS.nodes.filter(n => getTier(n) === "specialized").length;
-      document.getElementById("header-meta-line").textContent =
-        `${ATLAS.meta.total_labs} laboratorios (${flagshipCount} consolidados + ${specCount} especializados) · ${ATLAS.meta.total_countries} países · ${ATLAS.meta.total_us_states} estados EE.UU. · ${ATLAS.meta.coauthor_edges} coautorías + ${ATLAS.meta.similarity_edges} similitudes`;
-      document.getElementById("tier-btn-all").textContent = `Todos (${ATLAS.meta.total_labs})`;
-      document.getElementById("tier-btn-flagship").textContent = `Consolidados (${flagshipCount})`;
-      document.getElementById("tier-btn-specialized").textContent = `Especializados (${specCount})`;
-      document.getElementById("btn-net-global").textContent = `Red Global (${ATLAS.meta.total_labs} labs)`;
-      document.getElementById("dialog-methodology-prose").innerHTML =
-        `Los ${ATLAS.meta.total_labs} laboratorios (${flagshipCount} centros consolidados y ${specCount} grupos especializados o emergentes), métricas (<em>h-index</em>, citas, trabajos), coautorías (${ATLAS.meta.coauthor_edges} pares reales) y similitudes bibliográficas (${ATLAS.meta.similarity_edges} puentes calculados mediante acoplamiento bibliográfico sobre referencias compartidas + similitud de tópicos en ${Number(ATLAS.meta.corpus_works || 0).toLocaleString()} publicaciones de 2014–2026) fueron verificados directamente vía <strong>OpenAlex</strong>, <strong>Europe PMC</strong> y <strong>ORCID</strong>.`;
 
       const settingsDialog = document.getElementById("settings-dialog");
       if (!("commandForElement" in HTMLButtonElement.prototype)) {
         document.getElementById("btn-open-settings").addEventListener("click", () => settingsDialog.showModal());
       }
+      document.getElementById("insp-open-settings-btn")?.addEventListener("click", () => {
+        if (!settingsDialog.open) settingsDialog.showModal();
+      });
       if (!("closedBy" in HTMLDialogElement.prototype)) {
         settingsDialog.addEventListener("click", (event) => {
           if (event.target !== settingsDialog) return;
@@ -1825,7 +2338,7 @@
       const metaScheme = document.querySelector('meta[name="color-scheme"]');
       const mqDark = window.matchMedia("(prefers-color-scheme: dark)");
       const updateSystemThemeLabel = () => {
-        document.getElementById("system-theme-label").textContent = mqDark.matches ? "oscuro ahora" : "claro ahora";
+        document.getElementById("system-theme-label").textContent = mqDark.matches ? tr().sysDarkNow : tr().sysLightNow;
         if (state.view === "network") drawNetwork();
       };
       const applyThemeSelection = () => {
@@ -1850,15 +2363,10 @@
         applyThemeSelection();
       });
       mqDark.addEventListener("change", updateSystemThemeLabel);
-      window.addEventListener("storage", (e) => {
-        if (e.key === "auditory-atlas-scheme") applyThemeSelection();
-      });
-      updateSystemThemeLabel();
-      applyThemeSelection();
 
       const getPillarColor = (pillarKey) => {
         const isDark = metaScheme.content === "dark" || (metaScheme.content === "light dark" && mqDark.matches);
-        const p = PILLARS[pillarKey] || PILLARS.abr_eeg;
+        const p = PILLAR_DEFS[pillarKey] || PILLAR_DEFS.abr_eeg;
         return isDark ? p.hexDark : p.hexLight;
       };
 
@@ -1889,35 +2397,44 @@
       const renderLegend = () => {
         const strip = document.getElementById("map-legend");
         const dlgList = document.getElementById("dialog-legend-list");
-        for (const [, p] of Object.entries(PILLARS)) {
+        const stripFrag = document.createDocumentFragment();
+        const dlgFrag = document.createDocumentFragment();
+        for (const k of Object.keys(PILLAR_DEFS)) {
+          const p = getPillar(k);
           const span = document.createElement("span");
           span.className = "legend-item";
           span.innerHTML = `<svg aria-hidden="true" width="14" height="14" viewBox="-8 -8 16 16"><path d="${shapePath(p.shape, 5.5)}" fill="${p.colorVar}"/></svg> ${escHtml(p.short)}`;
-          strip.appendChild(span);
+          stripFrag.appendChild(span);
 
           const li = document.createElement("li");
           li.innerHTML = `<svg aria-hidden="true" width="12" height="12" viewBox="-8 -8 16 16"><path d="${shapePath(p.shape, 5.5)}" fill="${p.colorVar}"/></svg> <strong>${escHtml(p.label)}</strong>`;
-          dlgList.appendChild(li);
+          dlgFrag.appendChild(li);
         }
+        strip.replaceChildren(stripFrag);
+        dlgList.replaceChildren(dlgFrag);
       };
-      renderLegend();
 
       const pillarFiltersEl = document.getElementById("pillar-filters");
-      const addPillarBtn = (key, label, colorVar, shape) => {
+      const addPillarBtn = (frag, key, label, colorVar, shape) => {
         const b = document.createElement("button");
         b.type = "button";
         b.className = "pillar-pill";
         b.dataset.pillar = key;
-        b.setAttribute("aria-pressed", key === "all" ? "true" : "false");
+        b.setAttribute("aria-pressed", key === state.pillar ? "true" : "false");
         if (colorVar) b.style.setProperty("--pill-color", colorVar);
         const icon = shape ? `<svg aria-hidden="true" width="11" height="11" viewBox="-8 -8 16 16"><path d="${shapePath(shape, 5.5)}" fill="${colorVar}"/></svg>` : "";
         b.innerHTML = `${icon}<span>${escHtml(label)}</span>`;
-        pillarFiltersEl.appendChild(b);
+        frag.appendChild(b);
       };
-      addPillarBtn("all", "Todos", null, null);
-      for (const [k, p] of Object.entries(PILLARS)) {
-        addPillarBtn(k, p.short, p.colorVar, p.shape);
-      }
+      const renderPillarButtons = () => {
+        const frag = document.createDocumentFragment();
+        addPillarBtn(frag, "all", tr().pillarAll, null, null);
+        for (const k of Object.keys(PILLAR_DEFS)) {
+          const p = getPillar(k);
+          addPillarBtn(frag, k, p.short, p.colorVar, p.shape);
+        }
+        pillarFiltersEl.replaceChildren(frag);
+      };
 
       const countryCounts = new Map();
       const stateCounts = new Map();
@@ -1958,8 +2475,9 @@
         chip.className = "geo-chip";
         chip.dataset.geoType = "state";
         chip.dataset.geoVal = st;
+        chip.dataset.geoCount = String(cnt);
         chip.setAttribute("aria-pressed", "false");
-        chip.textContent = `EE.UU. · ${st} (${cnt})`;
+        chip.textContent = `${tr().usPrefix} · ${st} (${cnt})`;
         geoChips.appendChild(chip);
       }
 
@@ -2110,7 +2628,7 @@
         const frag = document.createDocumentFragment();
         const ordered = ATLAS.nodes.toSorted((a, b) => (a.id === state.selectedId ? 1 : b.id === state.selectedId ? -1 : a.h_index - b.h_index));
         for (const n of ordered) {
-          const p = PILLARS[n.pillar] || PILLARS.abr_eeg;
+          const p = getPillar(n.pillar);
           const r = 3.2 + Math.min(4.2, Math.sqrt(Math.max(1, n.h_index)) * 0.42);
           const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
           g.setAttribute("class", "lab-marker");
@@ -2354,7 +2872,7 @@
           const n = nodesById.get(marker.dataset.id);
           if (n) {
             mapTooltip.hidden = false;
-            mapTooltip.innerHTML = `<strong>${escHtml(n.name)}</strong> (${escHtml(tierLabel(n))})<br>${escHtml(n.institution)}<br><span>${escHtml(n.city)}, ${escHtml(n.state || n.country_display)} · h-index ${n.h_index} · Afinidad ${n.fit_score}%</span>`;
+            mapTooltip.innerHTML = tr().mapTipLab(n, tierLabel(n));
           }
           return;
         }
@@ -2362,15 +2880,15 @@
         if (stEl) {
           const cnt = Number(stEl.dataset.count || 0);
           mapTooltip.hidden = false;
-          mapTooltip.innerHTML = `<strong>Estado EE.UU.: ${escHtml(stEl.dataset.name)}</strong><br>${cnt} laboratorio${cnt === 1 ? "" : "s"} en el atlas`;
+          mapTooltip.innerHTML = tr().mapTipState(stEl.dataset.name, cnt);
           return;
         }
         const cEl = e.target.closest(".country-shape");
         if (cEl) {
           const cnt = Number(cEl.dataset.count || 0);
-          const lbl = cEl.dataset.name === "United States of America" ? "United States" : cEl.dataset.name;
+          const lbl = cEl.dataset.name === "United States of America" ? "United States" : (cEl.dataset.name === "Czechia" ? "Czech Republic" : cEl.dataset.name);
           mapTooltip.hidden = false;
-          mapTooltip.innerHTML = `<strong>${escHtml(lbl)}</strong><br>${cnt} laboratorio${cnt === 1 ? "" : "s"} en el atlas`;
+          mapTooltip.innerHTML = tr().mapTipCountry(lbl, cnt);
           return;
         }
         mapTooltip.hidden = true;
@@ -2605,7 +3123,7 @@
             const sx = cx + pos.x * ek, sy = cy + pos.y * ek;
             const r = (id === state.selectedId ? 15 : (pos.tier === 1 ? 10 : 7.5)) * Math.pow(k, 0.3) * (isCompactNet ? 0.82 : 1);
             const col = getPillarColor(n.pillar);
-            const p = PILLARS[n.pillar];
+            const p = getPillar(n.pillar);
             const isDim = !state.filteredIds.has(id) && id !== state.selectedId;
 
             netCtx.save();
@@ -2692,7 +3210,7 @@
           const sx = cx + n.gx * scaleBase, sy = cy + n.gy * scaleBase;
           const r = (4 + Math.min(6, Math.sqrt(Math.max(1, n.h_index)) * 0.6)) * Math.pow(k, 0.25);
           const col = getPillarColor(n.pillar);
-          const p = PILLARS[n.pillar];
+          const p = getPillar(n.pillar);
           const isMatch = state.filteredIds.has(n.id);
           const isNeighbor = focusNeighbors.has(n.id);
 
@@ -2796,8 +3314,8 @@
           if (state.netMode === "ego" && posInfo && posInfo.edge) {
             const ed = posInfo.edge;
             edgeTxt = ed.kind === "coauthor"
-              ? `<br><strong>Conexión:</strong> ${ed.shared_count} paper${ed.shared_count === 1 ? "" : "s"} en coautoría`
-              : `<br><strong>Similitud bibliográfica:</strong> ${Math.round(ed.similarity * 100)}% (${ed.shared_refs} referencias comunes)`;
+              ? tr().netTipCoauthor(ed.shared_count)
+              : tr().netTipSim(Math.round(ed.similarity * 100), ed.shared_refs);
           }
           netTooltip.hidden = false;
           netTooltip.innerHTML = `<strong>${escHtml(n.name)}</strong><br>${escHtml(n.institution)}<br>${escHtml(n.city)}, ${escHtml(n.state || n.country_display)}${edgeTxt}`;
@@ -2855,18 +3373,21 @@
       const labListEl = document.getElementById("lab-list");
       const labsTable = document.getElementById("labs-table");
       const labsTbody = document.getElementById("labs-tbody");
-      const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
+      let collator = new Intl.Collator(localeTag(), { numeric: true, sensitivity: "base" });
 
       const buildDirectoryRows = () => {
+        const t = tr();
+        const locFmt = localeTag();
         const frag = document.createDocumentFragment();
         const initialSorted = ATLAS.nodes.toSorted((a, b) => b.fit_score - a.fit_score);
         for (const n of initialSorted) {
-          const p = PILLARS[n.pillar];
-          const tr = document.createElement("tr");
-          tr.dataset.id = n.id;
+          const p = getPillar(n.pillar);
+          const isSaved = state.shortlist.has(n.id);
+          const trEl = document.createElement("tr");
+          trEl.dataset.id = n.id;
 
           const tdName = document.createElement("td");
-          tdName.innerHTML = `<button type="button" class="table-name-btn" data-action="select">${escHtml(n.name)}</button> <span class="${tierBadgeClass(n)}">${escHtml(tierLabel(n))}</span><div class="lab-card-meta">${escHtml(n.institution)}</div>`;
+          tdName.innerHTML = `<button type="button" class="table-name-btn" data-action="select">${escHtml(n.name)}</button> <span class="${tierBadgeClass(n)} js-tier-badge">${escHtml(tierLabel(n))}</span><div class="lab-card-meta">${escHtml(n.institution)}</div>`;
 
           const locStr = `${n.country_display}${n.state ? " — " + n.state : ""} (${n.city})`;
           const tdLoc = document.createElement("td");
@@ -2877,30 +3398,65 @@
 
           const tdFit = document.createElement("td");
           tdFit.dataset.value = String(n.fit_score);
+          tdFit.dataset.label = t.colLabelFit;
           tdFit.textContent = `${n.fit_score}%`;
 
           const tdH = document.createElement("td");
           tdH.dataset.value = String(n.h_index);
+          tdH.dataset.label = t.colLabelH;
           tdH.textContent = String(n.h_index);
 
           const tdC = document.createElement("td");
           tdC.dataset.value = String(n.cited_by_count);
-          tdC.textContent = n.cited_by_count.toLocaleString();
+          tdC.dataset.label = t.colLabelCited;
+          tdC.textContent = n.cited_by_count.toLocaleString(locFmt);
 
           const tdAct = document.createElement("td");
           tdAct.innerHTML = `<div class="table-actions">
-            <a class="btn btn-sm" href="${escHtml(n.lab_url)}" target="_blank" rel="noopener noreferrer">Web</a>
-            <a class="btn btn-sm" href="${escHtml(n.careers_url)}" target="_blank" rel="noopener noreferrer">Empleos</a>
-            <button type="button" class="btn btn-sm" data-action="ego">Red</button>
-            <button type="button" class="btn btn-sm" data-action="star" aria-pressed="${state.shortlist.has(n.id)}">${state.shortlist.has(n.id) ? "★" : "☆"}</button>
+            <a class="btn btn-sm" data-action="web" href="${escHtml(n.lab_url)}" target="_blank" rel="noopener noreferrer">${escHtml(t.tblWeb)}</a>
+            <a class="btn btn-sm" data-action="careers" href="${escHtml(n.careers_url)}" target="_blank" rel="noopener noreferrer">${escHtml(t.tblCareers)}</a>
+            <button type="button" class="btn btn-sm" data-action="ego">${escHtml(t.tblGraph)}</button>
+            <button type="button" class="btn btn-sm" data-action="star" aria-pressed="${isSaved}" aria-label="${escHtml(isSaved ? t.tblStarRemove : t.tblStarAdd)}">${isSaved ? "★" : "☆"}</button>
           </div>`;
 
-          tr.append(tdName, tdLoc, tdPil, tdFit, tdH, tdC, tdAct);
-          frag.appendChild(tr);
+          trEl.append(tdName, tdLoc, tdPil, tdFit, tdH, tdC, tdAct);
+          frag.appendChild(trEl);
         }
         labsTbody.appendChild(frag);
       };
       buildDirectoryRows();
+
+      const updateDirectoryRowsLanguage = () => {
+        const t = tr();
+        const locFmt = localeTag();
+        for (const row of labsTbody.rows) {
+          const n = nodesById.get(row.dataset.id);
+          if (!n) continue;
+          const p = getPillar(n.pillar);
+          const isSaved = state.shortlist.has(n.id);
+
+          const tierBadge = row.cells[0]?.querySelector(".js-tier-badge");
+          if (tierBadge) tierBadge.textContent = tierLabel(n);
+
+          if (row.cells[2]) {
+            row.cells[2].innerHTML = `<span class="badge"><svg aria-hidden="true" width="10" height="10" viewBox="-8 -8 16 16"><path d="${shapePath(p.shape, 5)}" fill="${p.colorVar}"/></svg>${escHtml(p.short)}</span>`;
+          }
+          if (row.cells[3]) row.cells[3].dataset.label = t.colLabelFit;
+          if (row.cells[4]) row.cells[4].dataset.label = t.colLabelH;
+          if (row.cells[5]) {
+            row.cells[5].dataset.label = t.colLabelCited;
+            row.cells[5].textContent = n.cited_by_count.toLocaleString(locFmt);
+          }
+          const webLink = row.querySelector('a[data-action="web"]');
+          if (webLink) webLink.textContent = t.tblWeb;
+          const careersLink = row.querySelector('a[data-action="careers"]');
+          if (careersLink) careersLink.textContent = t.tblCareers;
+          const egoBtn = row.querySelector('button[data-action="ego"]');
+          if (egoBtn) egoBtn.textContent = t.tblGraph;
+          const starBtn = row.querySelector('button[data-action="star"]');
+          if (starBtn) starBtn.setAttribute("aria-label", isSaved ? t.tblStarRemove : t.tblStarAdd);
+        }
+      };
 
       const sortDirectoryTable = (th, headerBtn) => {
         const direction = th.getAttribute("aria-sort") === "ascending" ? "descending" : "ascending";
@@ -2920,7 +3476,7 @@
           ? (node) => labsTbody.moveBefore(node, null)
           : (node) => labsTbody.append(node);
         for (const r of rows) move(r);
-        announce(`Ordenado por ${headerBtn.textContent.trim()}, ${direction === "ascending" ? "ascendente" : "descendente"}, ${rows.length} filas`);
+        announce(tr().announceSorted(headerBtn.textContent.trim(), direction === "ascending", rows.length));
       };
 
       labsTable.addEventListener("command", (event) => {
@@ -2940,8 +3496,8 @@
       labsTbody.addEventListener("click", (e) => {
         const btn = e.target.closest("button[data-action]");
         if (!btn) return;
-        const tr = btn.closest("tr");
-        const id = tr?.dataset.id;
+        const trEl = btn.closest("tr");
+        const id = trEl?.dataset.id;
         if (!id) return;
         const act = btn.dataset.action;
         if (act === "select") {
@@ -2955,6 +3511,7 @@
       });
 
       const renderSidebarList = () => {
+        const t = tr();
         const items = ATLAS.nodes.filter(n => state.filteredIds.has(n.id));
         if (state.sortBy === "fit") items.sort((a, b) => b.fit_score - a.fit_score || b.h_index - a.h_index);
         else if (state.sortBy === "cited") items.sort((a, b) => b.cited_by_count - a.cited_by_count);
@@ -2964,7 +3521,7 @@
 
         const frag = document.createDocumentFragment();
         for (const n of items) {
-          const p = PILLARS[n.pillar];
+          const p = getPillar(n.pillar);
           const li = document.createElement("li");
           const btn = document.createElement("button");
           btn.type = "button";
@@ -2975,7 +3532,7 @@
           btn.innerHTML = `
             <div class="lab-card-top">
               <span>${starMark}${escHtml(n.name)}</span>
-              <span class="badge badge-fit">${n.fit_score}%</span>
+              <span class="badge badge-fit" title="${escHtml(t.fitTooltip)}">${n.fit_score}%</span>
             </div>
             <div class="lab-card-meta">${escHtml(n.institution)}</div>
             <div class="lab-card-badges">
@@ -2987,8 +3544,8 @@
           frag.appendChild(li);
         }
         labListEl.replaceChildren(frag);
-        document.getElementById("filtered-count-label").textContent = `Mostrando ${items.length} de ${ATLAS.nodes.length}`;
-        document.getElementById("dir-summary-text").textContent = `${items.length} laboratorios coinciden con los filtros`;
+        document.getElementById("filtered-count-label").textContent = t.showingLabs(items.length, ATLAS.nodes.length);
+        document.getElementById("dir-summary-text").textContent = t.dirSummary(items.length);
       };
 
       const isMobileViewport = () => window.matchMedia("(max-width: 820px), (max-width: 960px) and (max-height: 520px)").matches;
@@ -3025,12 +3582,64 @@
         if (isMobileViewport()) setMobileDrawer(null);
       });
 
+      const buildShareUrl = (id) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set("lab", id);
+        if (state.view && state.view !== "map") url.searchParams.set("view", state.view);
+        else url.searchParams.delete("view");
+        url.searchParams.set("lang", state.lang);
+        return url.toString();
+      };
+
+      const execCommandCopy = (text) => {
+        const prevFocus = document.activeElement;
+        const ta = document.createElement("textarea");
+        try {
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.top = "-9999px";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.focus({ preventScroll: true });
+          ta.select();
+          ta.setSelectionRange(0, text.length);
+          return Boolean(document.execCommand("copy"));
+        } catch {
+          return false;
+        } finally {
+          ta.remove();
+          if (prevFocus && typeof prevFocus.focus === "function" && document.contains(prevFocus)) {
+            prevFocus.focus({ preventScroll: true });
+          }
+        }
+      };
+
+      const copyTextWithFallback = async (text) => {
+        const preferSync = window.location.protocol === "file:" || !window.isSecureContext || !navigator.clipboard?.writeText;
+        if (preferSync && execCommandCopy(text)) return true;
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+            return true;
+          }
+        } catch {}
+        return execCommandCopy(text);
+      };
+
       // ================= INSPECTOR PANEL =================
+      let shareResetTimer = null;
       const renderInspector = () => {
+        if (shareResetTimer) {
+          clearTimeout(shareResetTimer);
+          shareResetTimer = null;
+        }
+        const t = tr();
+        const locFmt = localeTag();
         const n = nodesById.get(state.selectedId);
         const container = document.getElementById("inspector-content");
-        if (!n) { container.innerHTML = "<p>Selecciona un laboratorio en el mapa o grafo.</p>"; return; }
-        const p = PILLARS[n.pillar];
+        if (!n) { container.innerHTML = `<p>${escHtml(t.inspEmpty)}</p>`; return; }
+        const p = getPillar(n.pillar);
         const isSaved = state.shortlist.has(n.id);
         const conns = (adjById.get(n.id) || []).slice(0, 10);
         const pubmedUrl = `https://pubmed.ncbi.nlm.nih.gov/?term=${encodeURIComponent(n.name.split(",")[0] + " AND (auditory OR hearing OR cochlear OR brainstem)")}`;
@@ -3039,70 +3648,71 @@
           <div class="insp-card">
             <div class="badge-row">
               <span class="badge"><svg aria-hidden="true" width="10" height="10" viewBox="-8 -8 16 16"><path d="${shapePath(p.shape, 5)}" fill="${p.colorVar}"/></svg>${escHtml(p.short)}</span>
-              <span class="${tierBadgeClass(n)}">${getTier(n) === "specialized" ? "Especializado / Emergente" : "Centro Consolidado"}</span>
-              <span class="badge badge-fit">Afinidad ABR+MRI: ${n.fit_score}%</span>
+              <span class="${tierBadgeClass(n)}">${escHtml(tierFullLabel(n))}</span>
+              <span class="badge badge-fit" title="${escHtml(t.fitTooltip)}">${escHtml(t.inspFitLabel(n.fit_score))}</span>
             </div>
             <h2 class="insp-title">${escHtml(n.name)}</h2>
             <p class="insp-inst">${escHtml(n.institution)}</p>
             <p class="insp-loc">${escHtml(n.city)}${n.state ? ", " + escHtml(n.state) : ""}, ${escHtml(n.country_display)}</p>
-            ${state.filteredIds.has(n.id) ? "" : `<p class="lab-card-meta">Oculto en la lista izquierda por filtros activos · <button type="button" class="btn btn-sm" id="insp-unfilter-btn">Mostrar en lista</button></p>`}
+            ${state.filteredIds.has(n.id) ? "" : `<p class="lab-card-meta">${escHtml(t.inspHiddenMsg)} · <button type="button" class="btn btn-sm" id="insp-unfilter-btn">${escHtml(t.inspUnfilter)}</button></p>`}
             <div class="badge-row insp-actions">
               <button type="button" class="btn btn-sm ${isSaved ? "btn-primary" : ""}" id="insp-star-btn" aria-pressed="${isSaved}">
-                ${isSaved ? "★ En tus Objetivos" : "☆ Guardar en Shortlist"}
+                ${escHtml(isSaved ? t.inspStarred : t.inspUnstarred)}
               </button>
-              <button type="button" class="btn btn-sm" id="insp-locate-btn">📍 Ubicar en Mapa</button>
-              <button type="button" class="btn btn-sm" id="insp-ego-btn">Ver Órbita "Connected Labs"</button>
-              <button type="button" class="btn btn-sm mobile-only-ctrl" id="insp-top-btn">↑ Volver al mapa</button>
+              <button type="button" class="btn btn-sm" id="insp-locate-btn">${escHtml(t.inspLocate)}</button>
+              <button type="button" class="btn btn-sm" id="insp-ego-btn">${escHtml(t.inspEgo)}</button>
+              <button type="button" class="btn btn-sm" id="insp-share-btn">${escHtml(t.inspShare)}</button>
+              <button type="button" class="btn btn-sm mobile-only-ctrl" id="insp-top-btn">${escHtml(t.inspTop)}</button>
             </div>
           </div>
 
-          <div class="metrics-grid" aria-label="Métricas OpenAlex">
-            <div class="metric-box"><span class="metric-val">${n.works_count}</span><span class="metric-lbl">Trabajos</span></div>
-            <div class="metric-box"><span class="metric-val">${n.cited_by_count.toLocaleString()}</span><span class="metric-lbl">Citas</span></div>
-            <div class="metric-box"><span class="metric-val">${n.h_index}</span><span class="metric-lbl">h-index</span></div>
-            <div class="metric-box"><span class="metric-val">${n.mean_cited_2yr}</span><span class="metric-lbl">Citas/2a</span></div>
+          <div class="metrics-grid" aria-label="${escHtml(t.metricsAria)}">
+            <div class="metric-box"><span class="metric-val">${n.works_count.toLocaleString(locFmt)}</span><span class="metric-lbl">${escHtml(t.mWorks)}</span></div>
+            <div class="metric-box"><span class="metric-val">${n.cited_by_count.toLocaleString(locFmt)}</span><span class="metric-lbl">${escHtml(t.mCites)}</span></div>
+            <div class="metric-box"><span class="metric-val">${n.h_index}</span><span class="metric-lbl">${escHtml(t.mHindex)}</span></div>
+            <div class="metric-box"><span class="metric-val">${n.mean_cited_2yr}</span><span class="metric-lbl">${escHtml(t.mCites2y)}</span></div>
           </div>
 
           <div>
-            <h3 class="sec-heading">Enlaces para Postulación / Contacto</h3>
+            <h3 class="sec-heading">${escHtml(t.secLinks)}</h3>
             <div class="link-grid">
-              <a class="btn btn-sm" href="${escHtml(n.lab_url)}" target="_blank" rel="noopener noreferrer">🌐 Web Lab / Institución</a>
-              <a class="btn btn-sm" href="${escHtml(n.careers_url)}" target="_blank" rel="noopener noreferrer">💼 Portal Empleos / Postdoc</a>
-              <a class="btn btn-sm" href="${escHtml(n.openalex_url)}" target="_blank" rel="noopener noreferrer">📊 Perfil OpenAlex</a>
-              ${n.orcid ? `<a class="btn btn-sm" href="https://orcid.org/${escHtml(n.orcid)}" target="_blank" rel="noopener noreferrer">🆔 ORCID</a>` : `<a class="btn btn-sm" href="${escHtml(pubmedUrl)}" target="_blank" rel="noopener noreferrer">🔬 PubMed</a>`}
+              <a class="btn btn-sm" href="${escHtml(n.lab_url)}" target="_blank" rel="noopener noreferrer">${escHtml(t.lnkLab)}</a>
+              <a class="btn btn-sm" href="${escHtml(n.careers_url)}" target="_blank" rel="noopener noreferrer">${escHtml(t.lnkCareers)}</a>
+              <a class="btn btn-sm" href="${escHtml(n.openalex_url)}" target="_blank" rel="noopener noreferrer">${escHtml(t.lnkOpenAlex)}</a>
+              ${n.orcid ? `<a class="btn btn-sm" href="https://orcid.org/${escHtml(n.orcid)}" target="_blank" rel="noopener noreferrer">${escHtml(t.lnkOrcid)}</a>` : `<a class="btn btn-sm" href="${escHtml(pubmedUrl)}" target="_blank" rel="noopener noreferrer">${escHtml(t.lnkPubMed)}</a>`}
             </div>
           </div>
 
           <div>
-            <h3 class="sec-heading">Tópicos y Métodos Coincidentes</h3>
+            <h3 class="sec-heading">${escHtml(t.secTopics)}</h3>
             <div class="badge-row insp-section-gap">
-              ${n.fit_tags.map(t => `<span class="badge">${escHtml(t)}</span>`).join("")}
-              ${n.topics.slice(0, 3).map(t => `<span class="badge badge-topic">${escHtml(t)}</span>`).join("")}
+              ${n.fit_tags.map(tg => `<span class="badge">${escHtml(tg)}</span>`).join("")}
+              ${n.topics.slice(0, 3).map(tp => `<span class="badge badge-topic">${escHtml(tp)}</span>`).join("")}
             </div>
           </div>
 
           <div>
-            <h3 class="sec-heading">Publicaciones Destacadas y Recientes</h3>
+            <h3 class="sec-heading">${escHtml(t.secPapers)}</h3>
             <ul class="paper-list">
               ${n.top_papers.map(w => `
                 <li class="paper-item">
-                  <a href="https://doi.org/${escHtml(w.doi)}" target="_blank" rel="noopener noreferrer"><strong>${escHtml(w.title)}</strong></a>
-                  <div class="conn-sub">${escHtml(w.journal)} (${w.year}) · ${w.cited.toLocaleString()} citas</div>
+                  ${w.doi ? `<a href="https://doi.org/${escHtml(w.doi)}" target="_blank" rel="noopener noreferrer"><strong>${escHtml(w.title)}</strong></a>` : `<strong>${escHtml(w.title)}</strong>`}
+                  <div class="conn-sub">${escHtml(w.journal)} (${w.year}) · ${escHtml(t.paperCites(w.cited.toLocaleString(locFmt)))}</div>
                 </li>`).join("")}
             </ul>
           </div>
 
           <div>
-            <h3 class="sec-heading">Connected Labs (Coautorías y Similitud)</h3>
+            <h3 class="sec-heading">${escHtml(t.secConns)}</h3>
             <ul class="conn-list">
               ${conns.map(({ peerId, edge }) => {
                 const peer = nodesById.get(peerId);
                 if (!peer) return "";
                 const reason = edge.kind === "coauthor"
-                  ? `Coautoría verificada: ${edge.shared_count} paper${edge.shared_count === 1 ? "" : "s"} (${edge.shared_papers?.[0]?.year || ""})`
-                  : `Similitud bibliográfica: ${Math.round(edge.similarity * 100)}% (${edge.shared_refs} refs comunes)`;
+                  ? t.connCoauthor(edge.shared_count, edge.shared_papers?.[0]?.year || "")
+                  : t.connSim(Math.round(edge.similarity * 100), edge.shared_refs);
                 const sharedTitle = edge.kind === "coauthor" && edge.shared_papers?.[0]?.title
-                  ? `<span class="conn-sub">Ej.: "${escHtml(edge.shared_papers[0].title.slice(0, 68))}..."</span>` : "";
+                  ? `<span class="conn-sub">${escHtml(t.connExample)} "${escHtml(edge.shared_papers[0].title.slice(0, 68))}..."</span>` : "";
                 return `
                   <li>
                     <button type="button" class="conn-btn" data-peer-id="${escHtml(peerId)}">
@@ -3116,8 +3726,8 @@
           </div>
 
           <div>
-            <label class="sec-heading" for="insp-notes-area">Notas personales de postulación</label>
-            <textarea id="insp-notes-area" class="notes-area" placeholder="Ej. Contactar en mayo por beca postdoctoral / mencionar paper ABR-MRI...">${escHtml(state.notes[n.id] || "")}</textarea>
+            <label class="sec-heading" for="insp-notes-area">${escHtml(t.secNotes)}</label>
+            <textarea id="insp-notes-area" class="notes-area" placeholder="${escHtml(t.notesPlaceholder)}">${escHtml(state.notes[n.id] || "")}</textarea>
           </div>
         `;
 
@@ -3143,6 +3753,18 @@
             document.getElementById("main-content").scrollIntoView({ behavior: "smooth", block: "start" });
           }
         });
+        document.getElementById("insp-share-btn").addEventListener("click", async (e) => {
+          const btn = e.currentTarget;
+          const shareUrl = buildShareUrl(n.id);
+          try { history.replaceState(null, "", shareUrl); } catch {}
+          const copied = await copyTextWithFallback(shareUrl);
+          btn.textContent = copied ? tr().inspShareCopied : tr().inspShareFailed;
+          if (copied) announce(tr().announceCopied(n.name));
+          if (shareResetTimer) clearTimeout(shareResetTimer);
+          shareResetTimer = setTimeout(() => {
+            if (document.body.contains(btn)) btn.textContent = tr().inspShare;
+          }, 2200);
+        });
         document.getElementById("insp-top-btn")?.addEventListener("click", () => {
           window.scrollTo({ top: 0, behavior: "smooth" });
         });
@@ -3156,12 +3778,14 @@
       };
 
       const updateShortlistUI = () => {
+        const t = tr();
         document.getElementById("shortlist-count").textContent = String(state.shortlist.size);
-        for (const tr of labsTbody.rows) {
-          const btn = tr.querySelector('button[data-action="star"]');
-          const saved = state.shortlist.has(tr.dataset.id);
+        for (const row of labsTbody.rows) {
+          const btn = row.querySelector('button[data-action="star"]');
+          const saved = state.shortlist.has(row.dataset.id);
           if (btn) {
             btn.setAttribute("aria-pressed", String(saved));
+            btn.setAttribute("aria-label", saved ? t.tblStarRemove : t.tblStarAdd);
             btn.textContent = saved ? "★" : "☆";
           }
         }
@@ -3184,7 +3808,7 @@
         if (!nodesById.has(id)) return;
         const prevId = state.selectedId;
         state.selectedId = id;
-        for (const tr of labsTbody.rows) tr.classList.toggle("is-selected", tr.dataset.id === id);
+        for (const row of labsTbody.rows) row.classList.toggle("is-selected", row.dataset.id === id);
 
         let activeBtn = null;
         for (const b of labListEl.querySelectorAll(".lab-card-btn")) {
@@ -3216,11 +3840,11 @@
         if (state.view === "network") drawNetwork();
         const n = nodesById.get(id);
         document.getElementById("mobile-jump-name").textContent = n.name;
-        document.getElementById("mobile-jump-sub").textContent = `${n.institution} · Afinidad ${n.fit_score}%`;
-        announce(`Seleccionado ${n.name}, ${n.institution}`);
+        document.getElementById("mobile-jump-sub").textContent = tr().jumpSub(n.institution, n.fit_score);
+        if (!opts.silent) announce(tr().announceSelected(n.name, n.institution));
       }
 
-      function applyFilters() {
+      function applyFilters(opts = {}) {
         const q = state.search.trim().toLowerCase();
         state.filteredIds = new Set();
         for (const n of ATLAS.nodes) {
@@ -3237,8 +3861,8 @@
           state.filteredIds.add(n.id);
         }
 
-        for (const tr of labsTbody.rows) {
-          tr.hidden = !state.filteredIds.has(tr.dataset.id);
+        for (const row of labsTbody.rows) {
+          row.hidden = !state.filteredIds.has(row.dataset.id);
         }
         for (const chip of geoChips.children) {
           const isCountryMatch = chip.dataset.geoType === "country" && chip.dataset.geoVal === state.country && !state.stateUS;
@@ -3261,7 +3885,7 @@
         updateMarkerClasses();
         renderSidebarList();
         if (state.view === "network") drawNetwork();
-        announce(`${state.filteredIds.size} laboratorios visibles`);
+        if (!opts.silent) announce(tr().announceVisible(state.filteredIds.size));
       }
 
       function switchView(viewName) {
@@ -3275,6 +3899,203 @@
         if (isMobileViewport()) setMobileDrawer(null);
         if (viewName === "network") requestAnimationFrame(drawNetwork);
       }
+
+      function applyLanguage(opts = {}) {
+        const t = tr();
+        const locFmt = localeTag();
+        collator = new Intl.Collator(locFmt, { numeric: true, sensitivity: "base" });
+        document.documentElement.lang = state.lang;
+        document.title = t.pageTitle;
+
+        const langBtn = document.getElementById("btn-lang-toggle");
+        langBtn.setAttribute("aria-label", t.langToggleAria);
+        for (const sp of langBtn.querySelectorAll("[data-lang-opt]")) {
+          sp.classList.toggle("is-active", sp.dataset.langOpt === state.lang);
+        }
+
+        const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+        const setHtml = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+        const setAria = (id, val) => { const el = document.getElementById(id); if (el) el.setAttribute("aria-label", val); };
+
+        setText("skip-link", t.skipLink);
+        setText("brand-title-sub", t.brandSub);
+        setText(
+          "header-meta-line",
+          t.headerMeta(
+            ATLAS.meta.total_labs,
+            flagshipCount,
+            specCount,
+            ATLAS.meta.total_countries,
+            ATLAS.meta.total_us_states,
+            ATLAS.meta.coauthor_edges,
+            ATLAS.meta.similarity_edges
+          )
+        );
+        setAria("primary-nav", t.primaryNavAria);
+        setText("nav-map-full", t.navMapFull);
+        setText("nav-map-short", t.navMapShort);
+        setText("nav-net-full", t.navNetFull);
+        setText("nav-net-short", t.navNetShort);
+        setText("nav-dir-full", t.navDirFull);
+        setText("nav-dir-short", t.navDirShort);
+
+        setAria("btn-shortlist-filter", t.shortlistAria);
+        setText("shortlist-btn-label", t.shortlistLabel);
+        setAria("btn-open-settings", t.settingsAria);
+        setText("settings-btn-full", t.settingsFull);
+        setText("settings-btn-short", t.settingsShort);
+
+        setAria("sidebar-panel", t.sidebarAria);
+        setText("lbl-search-input", t.lblSearch);
+        const searchEl = document.getElementById("search-input");
+        if (searchEl) searchEl.placeholder = t.searchPlaceholder;
+        setText("mobile-filters-text", t.mobileFilters);
+        setText("mobile-list-text", t.mobileList);
+        setText("lbl-country-filter", t.lblCountry);
+        setText("opt-country-all", t.allOption);
+        setText("lbl-state-filter", t.lblState);
+        setText("opt-state-all", t.allOption);
+        setText("lbl-pillar-group", t.lblPillarGroup);
+        setAria("pillar-filters", t.pillarGroupAria);
+        setText("lbl-tier-group", t.lblTierGroup);
+        setAria("tier-filters", t.tierGroupAria);
+        setText("tier-btn-all", t.tierBtnAll(ATLAS.meta.total_labs));
+        setText("tier-btn-flagship", t.tierBtnFlagship(flagshipCount));
+        setText("tier-btn-specialized", t.tierBtnSpecialized(specCount));
+
+        const fitLbl = document.getElementById("lbl-fit-slider");
+        if (fitLbl) {
+          fitLbl.textContent = t.lblFitSlider;
+          fitLbl.title = t.fitTooltip;
+        }
+        setText("lbl-sort-sidebar", t.lblSortSidebar);
+        setText("sort-opt-fit", t.sortFit);
+        setText("sort-opt-cited", t.sortCited);
+        setText("sort-opt-hindex", t.sortHindex);
+        setText("sort-opt-country", t.sortCountry);
+        setText("sort-opt-name", t.sortName);
+        setText("summary-browse-geo", t.summaryBrowseGeo);
+        for (const chip of geoChips.children) {
+          if (chip.dataset.geoType === "state") {
+            chip.textContent = `${t.usPrefix} · ${chip.dataset.geoVal} (${chip.dataset.geoCount})`;
+          }
+        }
+        setText("btn-reset-filters-mobile", t.btnResetFilters);
+        setText("btn-close-filters-mobile", t.btnCloseFiltersMobile);
+        setText("btn-reset-filters", t.btnResetFilters);
+
+        setAria("view-map", t.viewMapAria);
+        setAria("region-toolbar", t.regionToolbarAria);
+        setText("reg-btn-world", t.regWorld);
+        setText("reg-btn-usa", t.regUsa);
+        setText("reg-btn-canada", t.regCanada);
+        setText("reg-btn-uk", t.regUk);
+        setText("reg-btn-europe", t.regEurope);
+        setText("reg-btn-latam", t.regLatam);
+        setText("reg-btn-apac", t.regApac);
+        setText("btn-toggle-arcs", t.btnArcs);
+        setAria("btn-map-zoom-in", t.zoomInMapAria);
+        setAria("btn-map-zoom-out", t.zoomOutMapAria);
+        setText("btn-map-reset", t.btnMapReset);
+        setAria("world-map-svg", t.mapSvgAria);
+        setText("map-svg-title", t.mapSvgTitle);
+
+        setAria("view-network", t.viewNetAria);
+        setText("btn-net-ego", t.btnNetEgo);
+        setText("btn-net-global", t.btnNetGlobal(ATLAS.meta.total_labs));
+        setText("lbl-net-edge-mode", t.lblNetEdgeMode);
+        setText("net-opt-both", t.netOptBoth);
+        setText("net-opt-coauthor", t.netOptCoauthor);
+        setText("net-opt-similarity", t.netOptSimilarity);
+        setAria("btn-net-zoom-in", t.zoomInNetAria);
+        setAria("btn-net-zoom-out", t.zoomOutNetAria);
+        setText("btn-net-reset", t.btnNetReset);
+        setAria("network-canvas", t.netCanvasAria);
+        setText("net-leg-coauthor", t.netLegCoauthor);
+        setText("net-leg-sim", t.netLegSim);
+        setText("net-leg-hint", t.netLegHint);
+
+        setAria("view-directory", t.viewDirAria);
+        setText("export-csv-full", t.exportCsvFull);
+        setText("export-csv-short", t.exportCsvShort);
+        setText("btn-export-json", t.exportJson);
+        setText("dir-table-caption", t.dirCaption);
+        setText("th-btn-pi", t.thPi);
+        setText("th-btn-loc", t.thLoc);
+        setText("th-btn-pillar", t.thPillar);
+        const thFit = document.getElementById("th-btn-fit");
+        if (thFit) {
+          thFit.textContent = t.thFit;
+          thFit.title = t.fitTooltip;
+        }
+        setText("th-btn-hindex", t.thHindex);
+        setText("th-btn-cited", t.thCited);
+        setText("th-actions-col", t.thActions);
+        setText("btn-jump-inspector", t.btnJumpInspector);
+
+        setAria("inspector-panel", t.inspectorAria);
+        setText("insp-open-settings-btn", t.inspOpenSettings);
+
+        setText("settings-title", t.dlgTitle);
+        setText("dlg-heading-theme", t.dlgHeadingTheme);
+        setAria("theme-controls", t.themeGroupAria);
+        setText("theme-opt-system-prefix", t.themeSystem);
+        setText("theme-opt-light-text", t.themeLight);
+        setText("theme-opt-dark-text", t.themeDark);
+        setText("dlg-heading-pillars", t.dlgHeadingPillars);
+        setText("dlg-heading-method", t.dlgHeadingMethod);
+        setHtml(
+          "dialog-methodology-prose",
+          t.dlgMethodProse(
+            ATLAS.meta.total_labs,
+            flagshipCount,
+            specCount,
+            ATLAS.meta.coauthor_edges,
+            ATLAS.meta.similarity_edges,
+            Number(ATLAS.meta.corpus_works || 0).toLocaleString(locFmt),
+            ATLAS.meta.generated_at || "2026-11-17"
+          )
+        );
+        setHtml("dialog-fit-note", t.dlgFitNote);
+        setHtml("dialog-privacy-note", t.dlgPrivacyNote);
+        setText("dlg-heading-contact", t.dlgHeadingContact);
+        setHtml("dialog-contact-prose", t.dlgContactHtml);
+        setText("btn-dialog-close", t.btnClose);
+
+        mapTooltip.hidden = true;
+        netTooltip.hidden = true;
+        renderLegend();
+        renderPillarButtons();
+        updateSystemThemeLabel();
+        updateDirectoryRowsLanguage();
+
+        if (!opts.initial) {
+          renderSidebarList();
+          renderInspector();
+          const cur = nodesById.get(state.selectedId);
+          if (cur) document.getElementById("mobile-jump-sub").textContent = t.jumpSub(cur.institution, cur.fit_score);
+          if (state.view === "network") drawNetwork();
+        }
+      }
+
+      function setLanguage(lang, persist = true) {
+        if (lang !== "en" && lang !== "es") return;
+        state.lang = lang;
+        if (persist) {
+          try { localStorage.setItem(STORAGE_LANG, lang); } catch {}
+        }
+        applyLanguage();
+      }
+
+      document.getElementById("btn-lang-toggle").addEventListener("click", () => {
+        setLanguage(state.lang === "en" ? "es" : "en", true);
+      });
+      window.addEventListener("storage", (e) => {
+        if (e.key === "auditory-atlas-scheme") applyThemeSelection();
+        if (e.key === STORAGE_LANG && (e.newValue === "en" || e.newValue === "es")) {
+          setLanguage(e.newValue, false);
+        }
+      });
 
       for (const b of document.querySelectorAll(".nav-tab")) {
         b.addEventListener("click", () => switchView(b.dataset.view));
@@ -3447,7 +4268,7 @@
         for (const n of items) {
           rows.push([
             n.name, tierLabel(n), n.institution, n.city, n.state, n.country_display,
-            PILLARS[n.pillar].short, n.fit_score, n.h_index, n.cited_by_count,
+            getPillar(n.pillar).short, n.fit_score, n.h_index, n.cited_by_count,
             state.shortlist.has(n.id) ? "YES" : "NO",
             n.lab_url, n.careers_url, n.orcid, state.notes[n.id] || ""
           ].map(esc).join(","));
@@ -3459,23 +4280,24 @@
         downloadBlob(JSON.stringify(items, null, 2), "application/json", "auditory_labs_export.json");
       });
 
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("theme") === "dark" || params.get("theme") === "light") {
-        metaScheme.content = params.get("theme");
+      applyThemeSelection();
+      if (initialParams.get("theme") === "dark" || initialParams.get("theme") === "light") {
+        metaScheme.content = initialParams.get("theme");
       }
-      if (params.get("lab") && nodesById.has(params.get("lab"))) {
-        state.selectedId = params.get("lab");
+      if (initialParams.get("lab") && nodesById.has(initialParams.get("lab"))) {
+        state.selectedId = initialParams.get("lab");
       }
+      applyLanguage({ initial: true });
       updateShortlistUI();
-      applyFilters();
+      applyFilters({ silent: true });
       renderMarkers();
       zoomToGeoBox(...REGION_BOXES.world);
-      selectLab(state.selectedId, { scrollSidebar: Boolean(params.get("lab")) });
-      if (params.get("view") === "network" || params.get("view") === "directory") {
-        switchView(params.get("view"));
+      selectLab(state.selectedId, { scrollSidebar: Boolean(initialParams.get("lab")), silent: true });
+      if (initialParams.get("view") === "network" || initialParams.get("view") === "directory") {
+        switchView(initialParams.get("view"));
       }
-      if (params.get("region") && REGION_BOXES[params.get("region")]) {
-        zoomToGeoBox(...REGION_BOXES[params.get("region")]);
+      if (initialParams.get("region") && REGION_BOXES[initialParams.get("region")]) {
+        zoomToGeoBox(...REGION_BOXES[initialParams.get("region")]);
       }
     })();
   </script>
