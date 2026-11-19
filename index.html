@@ -2501,24 +2501,44 @@
       const geoToFilterCountry = (geoName) => (geoName === "Palestine" ? "Israel" : geoName);
       const filterCountryToGeo = (cName) => (cName === "Israel" ? "Palestine" : cName);
 
-      const cityGroups = new Map();
-      for (const n of ATLAS.nodes) {
+      const rawMapPoints = ATLAS.nodes.map((n) => {
         const mc = getMapCoords(n);
-        const key = `${mc.lat.toFixed(2)},${mc.lon.toFixed(2)}`;
-        if (!cityGroups.has(key)) cityGroups.set(key, []);
-        cityGroups.get(key).push(n);
+        const [bx, by] = projectEqualEarth(mc.lon, mc.lat);
+        return { n, bx, by };
+      });
+      const METRO_CLUSTER_DIST = 0.65;
+      const visitedPts = new Array(rawMapPoints.length).fill(false);
+      const cityGroups = [];
+      for (let i = 0; i < rawMapPoints.length; i++) {
+        if (visitedPts[i]) continue;
+        visitedPts[i] = true;
+        const queue = [i];
+        const comp = [];
+        while (queue.length) {
+          const cur = queue.shift();
+          comp.push(rawMapPoints[cur]);
+          for (let j = 0; j < rawMapPoints.length; j++) {
+            if (visitedPts[j]) continue;
+            if (Math.hypot(rawMapPoints[cur].bx - rawMapPoints[j].bx, rawMapPoints[cur].by - rawMapPoints[j].by) <= METRO_CLUSTER_DIST) {
+              visitedPts[j] = true;
+              queue.push(j);
+            }
+          }
+        }
+        cityGroups.push(comp);
       }
       const nodeMapPos = new Map();
-      for (const [, grp] of cityGroups) {
-        const mc = getMapCoords(grp[0]);
-        const [bx, by] = projectEqualEarth(mc.lon, mc.lat);
+      for (const grp of cityGroups) {
+        const bx = grp.reduce((s, it) => s + it.bx, 0) / grp.length;
+        const by = grp.reduce((s, it) => s + it.by, 0) / grp.length;
         if (grp.length === 1) {
-          nodeMapPos.set(grp[0].id, { x: bx, y: by, dx: 0, dy: 0 });
+          nodeMapPos.set(grp[0].n.id, { x: bx, y: by, dx: 0, dy: 0 });
         } else {
-          grp.forEach((n, idx) => {
-            const ang = (2 * Math.PI * idx) / grp.length - Math.PI / 2;
-            const rad = grp.length <= 2 ? 7 : grp.length <= 4 ? 9.5 : 11.5;
-            nodeMapPos.set(n.id, { x: bx, y: by, dx: Math.cos(ang) * rad, dy: Math.sin(ang) * rad });
+          const sortedGrp = grp.toSorted((a, b) => b.n.h_index - a.n.h_index);
+          const rad = sortedGrp.length <= 2 ? 6.5 : sortedGrp.length <= 4 ? 9.5 : sortedGrp.length <= 6 ? 12 : 14.5;
+          sortedGrp.forEach((it, idx) => {
+            const ang = (2 * Math.PI * idx) / sortedGrp.length - Math.PI / 2;
+            nodeMapPos.set(it.n.id, { x: bx, y: by, dx: Math.cos(ang) * rad, dy: Math.sin(ang) * rad });
           });
         }
       }
@@ -2591,14 +2611,17 @@
       };
       buildMapGeometry();
 
-      const getSpreadFactor = (k) => 1 / Math.pow(Math.max(1, k), 0.45);
+      const MAX_MAP_ZOOM = 64;
+      const getSpreadFactor = (k) => 1 / Math.pow(Math.max(1, k), 0.68);
+      const renderedMapPos = new Map();
 
       const applyMapTransform = () => {
         const { x, y, k } = state.mapTransform;
         mapViewport.setAttribute("transform", `translate(${x.toFixed(2)},${y.toFixed(2)}) scale(${k.toFixed(3)})`);
-        const placedLabels = [];
         const items = [];
         const spreadFactor = getSpreadFactor(k);
+        const invScale = 1 / Math.pow(Math.max(1, k), 0.86);
+        const fontFactor = k * invScale;
         for (const g of layerMarkers.children) {
           const id = g.dataset.id;
           const base = nodeMapPos.get(id);
@@ -2606,12 +2629,56 @@
           if (!base || !n) continue;
           const mx = base.x + base.dx * spreadFactor;
           const my = base.y + base.dy * spreadFactor;
-          const invScale = 1 / Math.pow(k, 0.65);
-          g.setAttribute("transform", `translate(${mx.toFixed(2)},${my.toFixed(2)}) scale(${invScale.toFixed(3)})`);
-          items.push({ g, id, n, sx: mx * k, sy: my * k });
+          items.push({ g, id, n, mx, my, bx: mx, by: my });
         }
+        // At regional/state/city zoom, gently separate nearby active glyphs so adjacent cities never overlap
+        if (k >= 6) {
+          const activePts = items.filter((it) => state.filteredIds.has(it.id) || it.id === state.selectedId);
+          const minSepMap = (24 * fontFactor) / k;
+          const maxNudgeMap = (30 * fontFactor) / k;
+          for (let iter = 0; iter < 6; iter++) {
+            for (let i = 0; i < activePts.length; i++) {
+              const a = activePts[i];
+              for (let j = i + 1; j < activePts.length; j++) {
+                const b = activePts[j];
+                const dx = b.mx - a.mx;
+                const dy = b.my - a.my;
+                const dist = Math.hypot(dx, dy);
+                if (dist >= minSepMap) continue;
+                const push = (minSepMap - dist) * 0.52;
+                const ux = dist > 1e-5 ? dx / dist : Math.cos((i + j) * 2.1);
+                const uy = dist > 1e-5 ? dy / dist : Math.sin((i + j) * 2.1);
+                a.mx -= ux * push;
+                a.my -= uy * push;
+                b.mx += ux * push;
+                b.my += uy * push;
+              }
+            }
+            for (const p of activePts) {
+              const ox = p.mx - p.bx;
+              const oy = p.my - p.by;
+              const od = Math.hypot(ox, oy);
+              if (od > maxNudgeMap) {
+                const s = maxNudgeMap / od;
+                p.mx = p.bx + ox * s;
+                p.my = p.by + oy * s;
+              }
+            }
+          }
+        }
+        for (const it of items) {
+          renderedMapPos.set(it.id, [it.mx, it.my]);
+          it.sx = it.mx * k;
+          it.sy = it.my * k;
+          it.g.setAttribute("transform", `translate(${it.mx.toFixed(2)},${it.my.toFixed(2)}) scale(${invScale.toFixed(3)})`);
+        }
+
         // Prioritize selectedId, then highest h_index, and suppress colliding labels
         items.sort((a, b) => (a.id === state.selectedId ? -1 : b.id === state.selectedId ? 1 : b.n.h_index - a.n.h_index));
+        const activeGlyphs = items.filter((it) => state.filteredIds.has(it.id) || it.id === state.selectedId);
+        const placedBoxes = [];
+        const overlapsBox = (a, b) => a.x1 < b.x2 && a.x2 > b.x1 && a.y1 < b.y2 && a.y2 > b.y1;
+        const padG = 7.5 * fontFactor;
         for (const it of items) {
           const lbl = it.g.querySelector(".lab-marker-label");
           if (!lbl) continue;
@@ -2620,12 +2687,23 @@
             lbl.style.display = "none";
             continue;
           }
-          const collides = placedLabels.some(p => Math.abs(p.x - it.sx) < 104 && Math.abs(p.y - it.sy) < 18);
-          if (collides && it.id !== state.selectedId) {
+          const txtLen = Math.max(3, (lbl.textContent || "").length);
+          const lblW = (8 + txtLen * 6.2) * fontFactor;
+          const box = {
+            x1: it.sx + 7.5 * fontFactor,
+            x2: it.sx + 7.5 * fontFactor + lblW,
+            y1: it.sy - 6.2 * fontFactor,
+            y2: it.sy + 6.2 * fontFactor,
+          };
+          const hitsPlaced = placedBoxes.some((p) => overlapsBox(box, p));
+          const hitsGlyph = activeGlyphs.some((g) => g.id !== it.id && overlapsBox(box, {
+            x1: g.sx - padG, x2: g.sx + padG, y1: g.sy - padG, y2: g.sy + padG,
+          }));
+          if ((hitsPlaced || hitsGlyph) && it.id !== state.selectedId) {
             lbl.style.display = "none";
           } else {
             lbl.style.display = "block";
-            placedLabels.push({ x: it.sx, y: it.sy });
+            placedBoxes.push(box);
           }
         }
         updateMapArcs();
@@ -2698,6 +2776,8 @@
       };
 
       const getEffectiveMapXY = (id) => {
+        const rendered = renderedMapPos.get(id);
+        if (rendered) return rendered;
         const base = nodeMapPos.get(id);
         if (!base) return [500, 250];
         const spreadFactor = getSpreadFactor(state.mapTransform.k);
@@ -2761,8 +2841,11 @@
       const zoomToLab = (id) => {
         const base = nodeMapPos.get(id);
         if (!base) return;
-        const k = Math.max(4.5, state.mapTransform.k);
-        state.mapTransform = { k, x: 500 - base.x * k, y: 300 - base.y * k };
+        const k = Math.max(10, Math.min(MAX_MAP_ZOOM, state.mapTransform.k));
+        const spreadFactor = getSpreadFactor(k);
+        const mx = base.x + base.dx * spreadFactor;
+        const my = base.y + base.dy * spreadFactor;
+        state.mapTransform = { k, x: 500 - mx * k, y: 300 - my * k };
         applyMapTransform();
       };
 
@@ -2794,10 +2877,11 @@
         let bestPx = maxDistPx;
         for (const n of ATLAS.nodes) {
           if (!state.filteredIds.has(n.id)) continue;
+          const rendered = renderedMapPos.get(n.id);
           const base = nodeMapPos.get(n.id);
-          if (!base) continue;
-          const mx = base.x + base.dx * spreadFactor;
-          const my = base.y + base.dy * spreadFactor;
+          if (!rendered && !base) continue;
+          const mx = rendered ? rendered[0] : base.x + base.dx * spreadFactor;
+          const my = rendered ? rendered[1] : base.y + base.dy * spreadFactor;
           const distPx = Math.hypot(mx - mapX, my - mapY) * k * svgScale;
           if (distPx <= bestPx) {
             bestPx = distPx;
@@ -2850,7 +2934,7 @@
           const midX = (p1.x + p2.x) / 2;
           const midY = (p1.y + p2.y) / 2;
           const [svx, svy] = clientToSvgCoords(midX, midY);
-          const nextK = Math.max(0.75, Math.min(18, mapPinch.startK * (dist / mapPinch.startDist)));
+          const nextK = Math.max(0.75, Math.min(MAX_MAP_ZOOM, mapPinch.startK * (dist / mapPinch.startDist)));
           state.mapTransform.k = nextK;
           state.mapTransform.x = svx - mapPinch.anchorMapX * nextK;
           state.mapTransform.y = svy - mapPinch.anchorMapY * nextK;
@@ -2912,20 +2996,26 @@
         } catch {}
         if (moved) return;
 
-        const hitEl = (e.target && e.target !== mapSvg)
-          ? e.target
-          : (document.elementFromPoint(e.clientX, e.clientY) || downTarget);
-        const marker = hitEl?.closest?.(".lab-marker");
-        if (marker) {
-          selectLab(marker.dataset.id);
-          return;
-        }
+        const exactEl = document.elementFromPoint(e.clientX, e.clientY);
         if (e.pointerType === "touch") {
+          const exactGlyph = exactEl?.closest?.(".marker-glyph")?.closest?.(".lab-marker");
+          if (exactGlyph) {
+            selectLab(exactGlyph.dataset.id);
+            return;
+          }
           const nearId = findNearestMarkerClient(e.clientX, e.clientY, 16);
           if (nearId) {
             selectLab(nearId);
             return;
           }
+        }
+        const hitEl = (e.pointerType !== "touch" && e.target && e.target !== mapSvg)
+          ? e.target
+          : (exactEl || downTarget);
+        const marker = hitEl?.closest?.(".lab-marker");
+        if (marker) {
+          selectLab(marker.dataset.id);
+          return;
         }
         const stEl = hitEl?.closest?.(".state-shape");
         if (stEl && Number(stEl.dataset.count) > 0) {
@@ -2935,7 +3025,7 @@
           countrySel.value = state.country;
           stateSel.value = state.stateUS;
           applyFilters();
-          if (state.stateUS) zoomToProjectedBox(stateBounds.get(state.stateUS), 8);
+          if (state.stateUS) zoomToProjectedBox(stateBounds.get(state.stateUS), 22);
           return;
         }
         const cEl = hitEl?.closest?.(".country-shape");
@@ -2947,7 +3037,7 @@
           stateSel.value = state.stateUS;
           applyFilters();
           if (state.country === "United States of America") zoomToGeoBox(...REGION_BOXES.usa);
-          else if (state.country) zoomToProjectedBox(countryBounds.get(filterCountryToGeo(state.country)), 6);
+          else if (state.country) zoomToProjectedBox(countryBounds.get(filterCountryToGeo(state.country)), 14);
           return;
         }
         mapTooltip.hidden = true;
@@ -2964,14 +3054,24 @@
       mapSvg.addEventListener("wheel", (e) => {
         e.preventDefault();
         const [vx, vy] = clientToSvgCoords(e.clientX, e.clientY);
-        const factor = e.deltaY < 0 ? 1.18 : 0.85;
-        const nextK = Math.max(0.75, Math.min(18, state.mapTransform.k * factor));
+        const factor = e.deltaY < 0 ? 1.22 : 0.82;
+        const nextK = Math.max(0.75, Math.min(MAX_MAP_ZOOM, state.mapTransform.k * factor));
         const ratio = nextK / state.mapTransform.k;
         state.mapTransform.x = vx - (vx - state.mapTransform.x) * ratio;
         state.mapTransform.y = vy - (vy - state.mapTransform.y) * ratio;
         state.mapTransform.k = nextK;
         applyMapTransform();
       }, { passive: false });
+      mapSvg.addEventListener("dblclick", (e) => {
+        if (e.target.closest(".lab-marker")) return;
+        const [vx, vy] = clientToSvgCoords(e.clientX, e.clientY);
+        const nextK = Math.min(MAX_MAP_ZOOM, state.mapTransform.k * 2);
+        const ratio = nextK / state.mapTransform.k;
+        state.mapTransform.x = vx - (vx - state.mapTransform.x) * ratio;
+        state.mapTransform.y = vy - (vy - state.mapTransform.y) * ratio;
+        state.mapTransform.k = nextK;
+        applyMapTransform();
+      });
 
       // ================= CONNECTED LABS NETWORK GRAPH =================
       const netCanvas = document.getElementById("network-canvas");
@@ -3891,6 +3991,7 @@
         document.getElementById("mobile-list-count").textContent = String(state.filteredIds.size);
 
         updateMarkerClasses();
+        applyMapTransform();
         renderSidebarList();
         if (state.view === "network") drawNetwork();
         if (!opts.silent) announce(tr().announceVisible(state.filteredIds.size));
@@ -4120,16 +4221,16 @@
         }
         applyFilters();
         if (state.country === "United States of America") zoomToGeoBox(...REGION_BOXES.usa);
-        else if (state.country) zoomToProjectedBox(countryBounds.get(filterCountryToGeo(state.country)), 6);
+        else if (state.country) zoomToProjectedBox(countryBounds.get(filterCountryToGeo(state.country)), 14);
       });
       stateSel.addEventListener("change", (e) => {
         state.stateUS = e.target.value;
         if (state.stateUS) {
           state.country = "United States of America";
           countrySel.value = state.country;
-          zoomToProjectedBox(stateBounds.get(state.stateUS), 8);
         }
         applyFilters();
+        if (state.stateUS) zoomToProjectedBox(stateBounds.get(state.stateUS), 22);
       });
       pillarFiltersEl.addEventListener("click", (e) => {
         const b = e.target.closest(".pillar-pill");
@@ -4157,20 +4258,24 @@
       geoChips.addEventListener("click", (e) => {
         const c = e.target.closest(".geo-chip");
         if (!c) return;
-        if (c.dataset.geoType === "country") {
+        const isCountryChip = c.dataset.geoType === "country";
+        if (isCountryChip) {
           state.country = state.country === c.dataset.geoVal && !state.stateUS ? "" : c.dataset.geoVal;
           state.stateUS = "";
-          if (state.country === "United States of America") zoomToGeoBox(...REGION_BOXES.usa);
-          else if (state.country) zoomToProjectedBox(countryBounds.get(filterCountryToGeo(state.country)), 6);
         } else {
           state.country = "United States of America";
           state.stateUS = state.stateUS === c.dataset.geoVal ? "" : c.dataset.geoVal;
-          if (state.stateUS) zoomToProjectedBox(stateBounds.get(state.stateUS), 8);
-          else zoomToGeoBox(...REGION_BOXES.usa);
         }
         countrySel.value = state.country;
         stateSel.value = state.stateUS;
         applyFilters();
+        if (isCountryChip) {
+          if (state.country === "United States of America") zoomToGeoBox(...REGION_BOXES.usa);
+          else if (state.country) zoomToProjectedBox(countryBounds.get(filterCountryToGeo(state.country)), 14);
+        } else {
+          if (state.stateUS) zoomToProjectedBox(stateBounds.get(state.stateUS), 22);
+          else zoomToGeoBox(...REGION_BOXES.usa);
+        }
       });
       function resetAllFilters(resetZoom = true) {
         state.search = ""; state.country = ""; state.stateUS = ""; state.pillar = "all"; state.tier = "all"; state.minFit = 0; state.onlyShortlist = false;
@@ -4202,7 +4307,7 @@
         updateMapArcs();
       });
       document.getElementById("btn-map-zoom-in").addEventListener("click", () => {
-        const k = Math.min(18, state.mapTransform.k * 1.45);
+        const k = Math.min(MAX_MAP_ZOOM, state.mapTransform.k * 1.6);
         const r = k / state.mapTransform.k;
         state.mapTransform.x = 500 - (500 - state.mapTransform.x) * r;
         state.mapTransform.y = 300 - (300 - state.mapTransform.y) * r;
@@ -4210,7 +4315,7 @@
         applyMapTransform();
       });
       document.getElementById("btn-map-zoom-out").addEventListener("click", () => {
-        const k = Math.max(0.75, state.mapTransform.k / 1.45);
+        const k = Math.max(0.75, state.mapTransform.k / 1.6);
         const r = k / state.mapTransform.k;
         state.mapTransform.x = 500 - (500 - state.mapTransform.x) * r;
         state.mapTransform.y = 300 - (300 - state.mapTransform.y) * r;
