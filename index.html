@@ -615,7 +615,14 @@
         flex-direction: column;
         gap: 0.4rem;
       }
+      .lab-list-row {
+        display: flex;
+        align-items: stretch;
+        gap: 0.3rem;
+      }
       .lab-card-btn {
+        flex: 1 1 auto;
+        min-inline-size: 0;
         inline-size: 100%;
         text-align: start;
         padding: 0.6rem 0.7rem;
@@ -626,6 +633,30 @@
         flex-direction: column;
         gap: 0.2rem;
         contain: layout style;
+      }
+      .lab-star-btn {
+        flex: 0 0 auto;
+        inline-size: 36px;
+        min-block-size: 36px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        background-color: var(--bg-canvas);
+        color: var(--text-muted);
+        font-size: 1rem;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .lab-star-btn:hover {
+        border-color: var(--star-color);
+        background-color: var(--bg-subtle);
+        color: var(--star-color);
+      }
+      .lab-star-btn[aria-pressed="true"] {
+        border-color: var(--star-color);
+        background-color: color-mix(in oklab, var(--star-color) 14%, var(--bg-surface));
+        color: var(--star-color);
       }
       .lab-card-btn:hover {
         border-color: var(--accent);
@@ -788,7 +819,8 @@
         paint-order: stroke;
         stroke: var(--bg-surface);
         stroke-width: 3px;
-        pointer-events: none;
+        pointer-events: all;
+        cursor: pointer;
       }
 
       .floating-tooltip {
@@ -807,6 +839,101 @@
       }
       .floating-tooltip[hidden] {
         display: none;
+      }
+      .map-touch-card {
+        position: absolute;
+        inset-block-end: 0.5rem;
+        inset-inline: 0.5rem;
+        z-index: 8;
+        padding: 0.55rem 0.7rem;
+        border-radius: var(--radius-md);
+        border: 1.5px solid var(--accent);
+        background-color: color-mix(in oklab, var(--bg-surface) 97%, transparent);
+        box-shadow: 0 8px 24px color-mix(in oklab, black 22%, transparent);
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .map-touch-card[hidden] {
+        display: none;
+      }
+      .map-touch-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.4rem;
+      }
+      .map-touch-title {
+        font-size: 0.9rem;
+        font-weight: 800;
+        line-height: 1.25;
+      }
+      .map-touch-sub {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        line-height: 1.3;
+      }
+      .map-touch-close {
+        flex: 0 0 auto;
+        min-inline-size: 30px;
+        min-block-size: 30px;
+        padding: 0 0.35rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-color);
+        background-color: var(--bg-canvas);
+        font-weight: 700;
+        font-size: 0.82rem;
+      }
+      .map-touch-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        align-items: center;
+      }
+      .map-area-pill {
+        position: absolute;
+        inset-block-end: 0.5rem;
+        inset-inline: 0.5rem;
+        z-index: 7;
+        padding: 0.38rem 0.5rem;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--accent);
+        background-color: color-mix(in oklab, var(--bg-surface) 96%, transparent);
+        box-shadow: 0 6px 18px color-mix(in oklab, black 18%, transparent);
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.4rem;
+        font-size: 0.79rem;
+      }
+      .map-area-pill .btn {
+        flex: 1 1 auto;
+        min-inline-size: 0;
+        justify-content: space-between;
+        text-align: start;
+        gap: 0.45rem;
+        border: none;
+        background: transparent;
+        padding-inline: 0.35rem;
+      }
+      .map-area-pill .btn > span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .map-area-pill .btn > strong {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        color: var(--accent);
+      }
+      .map-area-pill[hidden] {
+        display: none !important;
+      }
+      .mobile-area-results {
+        display: none;
+      }
+      .mobile-area-results[hidden] {
+        display: none !important;
       }
 
       .map-legend-strip {
@@ -1354,15 +1481,19 @@
           gap: 0.35rem 0.7rem;
           font-size: 0.72rem;
         }
+        .map-area-pill {
+          display: flex;
+        }
         .mobile-jump-bar {
           align-items: center;
           justify-content: space-between;
-          gap: 0.55rem;
+          gap: 0.45rem;
           padding: 0.5rem 0.7rem;
           background-color: var(--bg-surface);
           border-block-start: 1px solid var(--border-color);
         }
         .mobile-jump-info {
+          flex: 1 1 auto;
           min-inline-size: 0;
           display: flex;
           flex-direction: column;
@@ -1379,9 +1510,45 @@
           font-size: 0.72rem;
           color: var(--text-muted);
         }
+        .mobile-jump-actions {
+          flex: 0 0 auto;
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+        }
         #btn-jump-inspector {
           flex: 0 0 auto;
           white-space: nowrap;
+        }
+        .mobile-area-results {
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+          padding: 0.6rem 0.7rem;
+          background-color: var(--bg-surface);
+          border-block-start: 1px solid var(--border-color);
+        }
+        .mobile-area-header {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.35rem;
+        }
+        .mobile-area-title {
+          font-size: 0.83rem;
+          font-weight: 700;
+        }
+        .mobile-area-list {
+          max-block-size: 38dvh;
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          padding-inline-end: 0.1rem;
+        }
+        .mobile-area-empty {
+          font-size: 0.8rem;
+          color: var(--text-muted);
+          padding: 0.5rem 0.25rem;
         }
         .inspector {
           padding: 0.75rem;
@@ -1586,8 +1753,8 @@
           <button type="button" class="btn lang-toggle-btn" id="btn-lang-toggle" aria-label="Switch language to Spanish" title="Switch language / Cambiar idioma">
             <span class="lang-opt is-active" data-lang-opt="en">EN</span><span class="lang-sep">/</span><span class="lang-opt" data-lang-opt="es">ES</span>
           </button>
-          <button type="button" class="btn" id="btn-shortlist-filter" aria-pressed="false" aria-label="Filter Shortlist">
-            ⭐ <span class="label-full" id="shortlist-btn-label">Shortlist </span>(<span id="shortlist-count">0</span>)
+          <button type="button" class="btn" id="btn-shortlist-filter" aria-pressed="false" aria-label="Filter Favorites">
+            ⭐ <span class="label-full" id="shortlist-btn-label">Favorites </span>(<span id="shortlist-count">0</span>)
           </button>
           <button type="button" class="btn" commandfor="settings-dialog" command="show-modal" id="btn-open-settings" aria-label="Theme, Methodology &amp; Contact">
             <span class="label-full" id="settings-btn-full">Theme &amp; Info</span><span class="label-short" id="settings-btn-short">Theme</span>
@@ -1714,6 +1881,8 @@
             </g>
           </svg>
           <div class="floating-tooltip" id="map-tooltip" hidden></div>
+          <div class="map-touch-card" id="map-touch-card" hidden role="region" aria-label="Selected lab quick preview"></div>
+          <div class="map-area-pill" id="map-area-pill" hidden role="region" aria-label="Filtered area results"></div>
         </div>
 
         <div class="map-legend-strip" id="map-legend"></div>
@@ -1758,7 +1927,7 @@
         <div class="stage-toolbar">
           <span class="field-label" id="dir-summary-text">Full directory</span>
           <div class="toolbar-group toolbar-spacer">
-            <button type="button" class="btn btn-sm" id="btn-export-csv"><span class="label-full" id="export-csv-full">Export CSV (Filtered / Shortlisted)</span><span class="label-short" id="export-csv-short">Export CSV</span></button>
+            <button type="button" class="btn btn-sm" id="btn-export-csv"><span class="label-full" id="export-csv-full">Export CSV (Filtered / Favorites)</span><span class="label-short" id="export-csv-short">Export CSV</span></button>
             <button type="button" class="btn btn-sm" id="btn-export-json">Export JSON</button>
           </div>
         </div>
@@ -1775,7 +1944,7 @@
                   <th scope="col" data-type="number" aria-sort="descending" id="th-fit-col"><button type="button" commandfor="labs-table" command="--sort" id="th-btn-fit" title="Thematic keyword overlap with ABR + MRI + aging profile — not a quality ranking.">ABR+MRI Match</button></th>
                   <th scope="col" data-type="number"><button type="button" commandfor="labs-table" command="--sort" id="th-btn-hindex">h-index</button></th>
                   <th scope="col" data-type="number"><button type="button" commandfor="labs-table" command="--sort" id="th-btn-cited">Citations</button></th>
-                  <th scope="col" id="th-actions-col">Links &amp; Shortlist</th>
+                  <th scope="col" id="th-actions-col">Links &amp; Favorites</th>
                 </tr>
               </thead>
               <tbody id="labs-tbody"></tbody>
@@ -1789,8 +1958,19 @@
           <strong id="mobile-jump-name">Kevin R. Sitek</strong>
           <span id="mobile-jump-sub">Northwestern University · Topic match 99%</span>
         </div>
-        <button type="button" class="btn btn-sm btn-primary" id="btn-jump-inspector">View details ↓</button>
+        <div class="mobile-jump-actions">
+          <button type="button" class="btn btn-sm" id="mobile-jump-star" aria-pressed="false" aria-label="Save to Favorites">☆</button>
+          <button type="button" class="btn btn-sm btn-primary" id="btn-jump-inspector">View details ↓</button>
+        </div>
       </div>
+
+      <section class="mobile-area-results" id="mobile-area-results" hidden aria-label="Filtered laboratories in selected area">
+        <div class="mobile-area-header">
+          <span class="mobile-area-title" id="mobile-area-title">Results</span>
+          <button type="button" class="btn btn-sm" id="btn-clear-area-mobile">Clear filters</button>
+        </div>
+        <ul class="lab-list mobile-area-list" id="mobile-area-list"></ul>
+      </section>
     </main>
 
     <aside class="inspector" id="inspector-panel" aria-label="Selected laboratory details">
@@ -1919,8 +2099,8 @@
           navDirFull: "Directory & Applications",
           navDirShort: "Directory",
           langToggleAria: "Switch interface language to Spanish",
-          shortlistAria: "Filter Shortlist",
-          shortlistLabel: "Shortlist ",
+          shortlistAria: "Filter Favorites",
+          shortlistLabel: "Favorites ",
           settingsAria: "Theme, Methodology & Contact",
           settingsFull: "Theme & Info",
           settingsShort: "Theme",
@@ -1986,7 +2166,7 @@
           netLegSim: "Bibliographic / topic similarity (Connected Papers style)",
           netLegHint: "Click: inspect · Double-click: center orbit on lab",
           viewDirAria: "Sortable directory and application manager",
-          exportCsvFull: "Export CSV (Filtered / Shortlisted)",
+          exportCsvFull: "Export CSV (Filtered / Favorites)",
           exportCsvShort: "Export CSV",
           exportJson: "Export JSON",
           dirCaption: "Global auditory neuroscience lab directory sortable by country, state, metrics, and topic match",
@@ -1996,15 +2176,15 @@
           thFit: "ABR+MRI Match",
           thHindex: "h-index",
           thCited: "Citations",
-          thActions: "Links & Shortlist",
+          thActions: "Links & Favorites",
           colLabelFit: "Topic Match",
           colLabelH: "h-index",
           colLabelCited: "Citations",
           tblWeb: "Web",
           tblCareers: "Careers",
           tblGraph: "Graph",
-          tblStarAdd: "Add to shortlist",
-          tblStarRemove: "Remove from shortlist",
+          tblStarAdd: "Save to Favorites",
+          tblStarRemove: "Remove from Favorites",
           btnJumpInspector: "View details ↓",
           inspectorAria: "Selected laboratory details",
           inspOpenSettings: "Methodology, Fit Index Note & Data Sources",
@@ -2023,7 +2203,7 @@
           dlgFitNote:
             '<strong>About the "ABR + MRI + Aging Match (%)" score:</strong> This index measures strictly <em>thematic keyword overlap</em> across recent publications and topics (auditory brainstem/ABR/FFR, structural/functional MRI, and auditory aging/tinnitus). It is <strong>not</strong> a measure of lab scientific quality, prestige, or mentorship.',
           dlgPrivacyNote:
-            "<strong>Privacy:</strong> Personal shortlists, theme and language preferences, and application notes are stored strictly locally in your browser and are never uploaded or shared.",
+            "<strong>Privacy:</strong> Saved favorites, theme and language preferences, and application notes are stored strictly locally in your browser and are never uploaded or shared.",
           dlgHeadingContact: "Questions, Feedback & Lab Suggestions",
           dlgContactHtml:
             'Questions, suggestions, corrections, or missing auditory neuroscience laboratories? Please email <a href="mailto:simonsnm@gmail.com?subject=Auditory%20Atlas%20Feedback"><strong>simonsnm@gmail.com</strong></a> or open an issue/PR in the <a href="https://github.com/Simoncio-art/auditory-labs-atlas" target="_blank" rel="noopener noreferrer">GitHub repository</a>.',
@@ -2045,12 +2225,19 @@
           netTipSim: (pct, refs) =>
             `<br><strong>Bibliographic similarity:</strong> ${pct}% (${refs} shared references)`,
           jumpSub: (inst, fit) => `${inst} · Topic match ${fit}%`,
+          touchCloseAria: "Close quick preview",
+          areaResultsCount: (label, cnt) => `📍 ${label} · ${cnt} lab${cnt === 1 ? "" : "s"}`,
+          areaFavTitle: (cnt) => `⭐ Favorites · ${cnt} lab${cnt === 1 ? "" : "s"}`,
+          areaFilteredTitle: (cnt) => `🔎 Filtered · ${cnt} lab${cnt === 1 ? "" : "s"}`,
+          areaSeeList: "View list ↓",
+          areaEmptyFavs: "No favorites saved yet. Tap ☆ on any lab to save it here.",
+          areaEmptyMatch: "No laboratories match current filters.",
           inspEmpty: "Select a laboratory on the map or graph.",
           inspFitLabel: (fit) => `Topic Match: ${fit}%`,
           inspHiddenMsg: "Hidden from the left list by active filters",
           inspUnfilter: "Show in list",
-          inspStarred: "★ Shortlisted",
-          inspUnstarred: "☆ Save to Shortlist",
+          inspStarred: "★ Saved to Favorites",
+          inspUnstarred: "☆ Save to Favorites",
           inspLocate: "📍 Locate on Map",
           inspEgo: "Show Orbit",
           inspShare: "🔗 Copy Link",
@@ -2092,8 +2279,8 @@
           navDirFull: "Directorio y Postulaciones",
           navDirShort: "Directorio",
           langToggleAria: "Switch interface language to English",
-          shortlistAria: "Filtrar Objetivos",
-          shortlistLabel: "Objetivos ",
+          shortlistAria: "Filtrar Favoritos",
+          shortlistLabel: "Favoritos ",
           settingsAria: "Tema, Metodología y Contacto",
           settingsFull: "Tema y Ayuda",
           settingsShort: "Tema",
@@ -2159,7 +2346,7 @@
           netLegSim: "Similitud bibliográfica / temática (estilo Connected Papers)",
           netLegHint: "Clic: inspeccionar · Doble clic: centrar órbita en el lab",
           viewDirAria: "Directorio ordenable y gestor de postulaciones",
-          exportCsvFull: "Exportar CSV (Filtrados / Objetivos)",
+          exportCsvFull: "Exportar CSV (Filtrados / Favoritos)",
           exportCsvShort: "Exportar CSV",
           exportJson: "Exportar JSON",
           dirCaption: "Directorio mundial de laboratorios auditivos ordenable por país, estado, métricas y afinidad temática",
@@ -2169,15 +2356,15 @@
           thFit: "Afinidad ABR+MRI",
           thHindex: "h-index",
           thCited: "Citas",
-          thActions: "Enlaces y Shortlist",
+          thActions: "Enlaces y Favoritos",
           colLabelFit: "Afinidad",
           colLabelH: "h-index",
           colLabelCited: "Citas",
           tblWeb: "Web",
           tblCareers: "Empleos",
           tblGraph: "Red",
-          tblStarAdd: "Agregar a objetivos",
-          tblStarRemove: "Quitar de objetivos",
+          tblStarAdd: "Guardar en favoritos",
+          tblStarRemove: "Quitar de favoritos",
           btnJumpInspector: "Ver detalle ↓",
           inspectorAria: "Detalle del laboratorio seleccionado",
           inspOpenSettings: "Metodología, Nota de Afinidad y Fuentes",
@@ -2218,12 +2405,19 @@
           netTipSim: (pct, refs) =>
             `<br><strong>Similitud bibliográfica:</strong> ${pct}% (${refs} referencias comunes)`,
           jumpSub: (inst, fit) => `${inst} · Afinidad ${fit}%`,
+          touchCloseAria: "Cerrar vista rápida",
+          areaResultsCount: (label, cnt) => `📍 ${label} · ${cnt} laboratorio${cnt === 1 ? "" : "s"}`,
+          areaFavTitle: (cnt) => `⭐ Favoritos · ${cnt} laboratorio${cnt === 1 ? "" : "s"}`,
+          areaFilteredTitle: (cnt) => `🔎 Filtrados · ${cnt} laboratorio${cnt === 1 ? "" : "s"}`,
+          areaSeeList: "Ver lista ↓",
+          areaEmptyFavs: "Aún no tienes favoritos guardados. Toca ☆ en cualquier laboratorio para guardarlo aquí.",
+          areaEmptyMatch: "Ningún laboratorio coincide con los filtros actuales.",
           inspEmpty: "Selecciona un laboratorio en el mapa o grafo.",
           inspFitLabel: (fit) => `Afinidad temática: ${fit}%`,
           inspHiddenMsg: "Oculto en la lista izquierda por filtros activos",
           inspUnfilter: "Mostrar en lista",
-          inspStarred: "★ En tus Objetivos",
-          inspUnstarred: "☆ Guardar en Shortlist",
+          inspStarred: "★ Guardado en favoritos",
+          inspUnstarred: "☆ Guardar en favoritos",
           inspLocate: "📍 Ubicar en Mapa",
           inspEgo: "Ver Órbita",
           inspShare: "🔗 Copiar enlace",
@@ -2289,6 +2483,7 @@
         onlyShortlist: false,
         sortBy: "fit",
         selectedId: "kevin-r-sitek",
+        mapCardLabId: null,
         showArcs: true,
         netMode: "ego",
         netEdgeMode: "both",
@@ -2299,6 +2494,11 @@
         netTransform: { x: 0, y: 0, k: 1 },
         egoPositions: new Map(),
       };
+      const mapTouchCardEl = document.getElementById("map-touch-card");
+      const mapAreaPillEl = document.getElementById("map-area-pill");
+      const mobileAreaResultsEl = document.getElementById("mobile-area-results");
+      const mobileAreaListEl = document.getElementById("mobile-area-list");
+      const mobileJumpStarEl = document.getElementById("mobile-jump-star");
 
       const tr = () => I18N[state.lang] || I18N.en;
       const localeTag = () => (state.lang === "es" ? "es-CL" : "en-US");
@@ -2849,6 +3049,14 @@
         applyMapTransform();
       };
 
+      const zoomToSelectedCountry = (cName) => {
+        if (!cName) return;
+        if (cName === "United States of America") zoomToGeoBox(...REGION_BOXES.usa);
+        else if (cName === "France") zoomToGeoBox(-5.5, 41.3, 9.8, 51.2);
+        else if (cName === "Norway") zoomToGeoBox(4.5, 57.8, 31.3, 71.3);
+        else zoomToProjectedBox(countryBounds.get(filterCountryToGeo(cName)), 14);
+      };
+
       const REGION_BOXES = {
         world: [-168, -56, 178, 76],
         usa: [-128, 23, -65, 50],
@@ -2867,7 +3075,7 @@
         return [(clientX - ox) / scale, (clientY - oy) / scale, scale];
       };
 
-      const findNearestMarkerClient = (clientX, clientY, maxDistPx = 16) => {
+      const findNearestMarkerClient = (clientX, clientY, maxDistPx = 22) => {
         const [vx, vy, svgScale] = clientToSvgCoords(clientX, clientY);
         const { x, y, k } = state.mapTransform;
         const mapX = (vx - x) / k;
@@ -2889,6 +3097,37 @@
           }
         }
         return bestId;
+      };
+
+      const findTouchedMarker = (clientX, clientY, exactEl) => {
+        const directEl = exactEl?.closest?.(".marker-glyph, .lab-marker-label");
+        const directActive = directEl?.closest?.(".lab-marker:not(.is-dimmed)");
+        if (directActive) return directActive.dataset.id;
+
+        let bestLabelId = null;
+        let bestLabelDist = Infinity;
+        for (const g of layerMarkers.children) {
+          if (g.classList.contains("is-dimmed")) continue;
+          const lbl = g.querySelector(".lab-marker-label");
+          if (!lbl || lbl.style.display === "none") continue;
+          const r = lbl.getBoundingClientRect();
+          if (r.width === 0 || r.height === 0) continue;
+          if (clientX >= r.left - 2 && clientX <= r.right + 2 && clientY >= r.top - 2 && clientY <= r.bottom + 2) {
+            const d = Math.hypot(clientX - (r.left + r.width / 2), clientY - (r.top + r.height / 2));
+            if (d < bestLabelDist) {
+              bestLabelDist = d;
+              bestLabelId = g.dataset.id;
+            }
+          }
+        }
+        if (bestLabelId) return bestLabelId;
+
+        const touchSnapPx = state.mapTransform.k >= 8 ? 18 : 8;
+        const nearId = findNearestMarkerClient(clientX, clientY, touchSnapPx);
+        if (nearId) return nearId;
+
+        const anyMarker = exactEl?.closest?.(".marker-hit, .marker-glyph, .lab-marker-label")?.closest?.(".lab-marker");
+        return anyMarker ? anyMarker.dataset.id : null;
       };
 
       const mapPointers = new Map();
@@ -2916,6 +3155,7 @@
         mapPinch = null;
         mapDrag = {
           pointerId: e.pointerId,
+          pointerType: e.pointerType,
           sx: e.clientX,
           sy: e.clientY,
           tx: state.mapTransform.x,
@@ -2943,7 +3183,8 @@
         }
         if (mapDrag && mapDrag.pointerId === e.pointerId) {
           const distPx = Math.hypot(e.clientX - mapDrag.sx, e.clientY - mapDrag.sy);
-          if (!mapDrag.moved && distPx <= 5) return;
+          const dragThresh = mapDrag.pointerType === "touch" ? 10 : 5;
+          if (!mapDrag.moved && distPx <= dragThresh) return;
           if (!mapDrag.moved) {
             mapDrag.moved = true;
             mapTooltip.hidden = true;
@@ -2996,16 +3237,16 @@
         } catch {}
         if (moved) return;
 
+        const isTouchTap = e.pointerType === "touch" || isMobileViewport();
         const exactEl = document.elementFromPoint(e.clientX, e.clientY);
         if (e.pointerType === "touch") {
-          const exactGlyph = exactEl?.closest?.(".marker-glyph")?.closest?.(".lab-marker");
-          if (exactGlyph) {
-            selectLab(exactGlyph.dataset.id);
-            return;
-          }
-          const nearId = findNearestMarkerClient(e.clientX, e.clientY, 16);
-          if (nearId) {
-            selectLab(nearId);
+          const touchedId = findTouchedMarker(e.clientX, e.clientY, exactEl);
+          if (touchedId) {
+            if (isTouchTap && state.selectedId === touchedId && state.mapCardLabId === touchedId && !mapTouchCardEl.hidden) {
+              document.getElementById("inspector-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+            } else {
+              selectLab(touchedId, { fromMapTap: true, isTouch: true });
+            }
             return;
           }
         }
@@ -3014,32 +3255,55 @@
           : (exactEl || downTarget);
         const marker = hitEl?.closest?.(".lab-marker");
         if (marker) {
-          selectLab(marker.dataset.id);
+          const mid = marker.dataset.id;
+          if (isTouchTap && state.selectedId === mid && state.mapCardLabId === mid && !mapTouchCardEl.hidden) {
+            document.getElementById("inspector-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            selectLab(mid, { fromMapTap: true, isTouch: isTouchTap });
+          }
           return;
         }
         const stEl = hitEl?.closest?.(".state-shape");
-        if (stEl && Number(stEl.dataset.count) > 0) {
-          const stName = stEl.dataset.name;
-          state.country = "United States of America";
-          state.stateUS = state.stateUS === stName ? "" : stName;
-          countrySel.value = state.country;
-          stateSel.value = state.stateUS;
-          applyFilters();
-          if (state.stateUS) zoomToProjectedBox(stateBounds.get(state.stateUS), 22);
-          return;
+        if (stEl) {
+          const cnt = Number(stEl.dataset.count || 0);
+          if (cnt > 0) {
+            const stName = stEl.dataset.name;
+            state.country = "United States of America";
+            state.stateUS = state.stateUS === stName ? "" : stName;
+            state.mapCardLabId = null;
+            countrySel.value = state.country;
+            stateSel.value = state.stateUS;
+            applyFilters();
+            if (state.stateUS) zoomToProjectedBox(stateBounds.get(state.stateUS), 22);
+            else zoomToGeoBox(...REGION_BOXES.usa);
+            return;
+          }
+          if (state.country !== "United States of America") {
+            state.country = "United States of America";
+            state.stateUS = "";
+            state.mapCardLabId = null;
+            countrySel.value = state.country;
+            stateSel.value = "";
+            applyFilters();
+            zoomToGeoBox(...REGION_BOXES.usa);
+            return;
+          }
         }
         const cEl = hitEl?.closest?.(".country-shape");
         if (cEl && Number(cEl.dataset.count) > 0) {
           const cName = geoToFilterCountry(cEl.dataset.name);
           state.country = state.country === cName ? "" : cName;
           if (state.country !== "United States of America") state.stateUS = "";
+          state.mapCardLabId = null;
           countrySel.value = state.country;
           stateSel.value = state.stateUS;
           applyFilters();
-          if (state.country === "United States of America") zoomToGeoBox(...REGION_BOXES.usa);
-          else if (state.country) zoomToProjectedBox(countryBounds.get(filterCountryToGeo(state.country)), 14);
+          if (state.country) zoomToSelectedCountry(state.country);
+          else zoomToGeoBox(...REGION_BOXES.world);
           return;
         }
+        state.mapCardLabId = null;
+        renderMapOverlayUI();
         mapTooltip.hidden = true;
       });
       mapSvg.addEventListener("pointercancel", (e) => {
@@ -3618,42 +3882,161 @@
         }
       });
 
-      const renderSidebarList = () => {
+      const displayCountryLabel = (cName) => (
+        cName === "United States of America" ? "United States" : (cName === "Czechia" ? "Czech Republic" : cName)
+      );
+
+      const getActiveAreaLabel = (itemsCount) => {
         const t = tr();
+        if (state.stateUS) return t.areaResultsCount(`${t.usPrefix} · ${state.stateUS}`, itemsCount);
+        if (state.country) return t.areaResultsCount(displayCountryLabel(state.country), itemsCount);
+        if (state.onlyShortlist) return t.areaFavTitle(itemsCount);
+        return t.areaFilteredTitle(itemsCount);
+      };
+
+      const hasActiveFilterOrArea = () => Boolean(
+        state.country || state.stateUS || state.search.trim() ||
+        state.pillar !== "all" || state.tier !== "all" ||
+        state.minFit > 0 || state.onlyShortlist
+      );
+
+      const getSortedFilteredNodes = () => {
         const items = ATLAS.nodes.filter(n => state.filteredIds.has(n.id));
         if (state.sortBy === "fit") items.sort((a, b) => b.fit_score - a.fit_score || b.h_index - a.h_index);
         else if (state.sortBy === "cited") items.sort((a, b) => b.cited_by_count - a.cited_by_count);
         else if (state.sortBy === "hindex") items.sort((a, b) => b.h_index - a.h_index);
         else if (state.sortBy === "country") items.sort((a, b) => collator.compare(a.country_display + a.state, b.country_display + b.state));
         else items.sort((a, b) => collator.compare(a.name, b.name));
+        return items;
+      };
 
-        const frag = document.createDocumentFragment();
-        for (const n of items) {
-          const p = getPillar(n.pillar);
-          const li = document.createElement("li");
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "lab-card-btn";
-          btn.dataset.id = n.id;
-          if (n.id === state.selectedId) btn.setAttribute("aria-current", "true");
-          const starMark = state.shortlist.has(n.id) ? "★ " : "";
-          btn.innerHTML = `
-            <div class="lab-card-top">
-              <span>${starMark}${escHtml(n.name)}</span>
-              <span class="badge badge-fit" title="${escHtml(t.fitTooltip)}">${n.fit_score}%</span>
+      const createLabListRow = (n, t) => {
+        const p = getPillar(n.pillar);
+        const isSaved = state.shortlist.has(n.id);
+        const li = document.createElement("li");
+        li.className = "lab-list-row";
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "lab-card-btn";
+        btn.dataset.id = n.id;
+        if (n.id === state.selectedId) btn.setAttribute("aria-current", "true");
+        btn.innerHTML = `
+          <div class="lab-card-top">
+            <span>${escHtml(n.name)}</span>
+            <span class="badge badge-fit" title="${escHtml(t.fitTooltip)}">${n.fit_score}%</span>
+          </div>
+          <div class="lab-card-meta">${escHtml(n.institution)}</div>
+          <div class="lab-card-badges">
+            <span class="badge"><svg aria-hidden="true" width="9" height="9" viewBox="-8 -8 16 16"><path d="${shapePath(p.shape, 4.8)}" fill="${p.colorVar}"/></svg>${escHtml(n.city)}, ${escHtml(n.state || n.country_display)}</span>
+            <span class="${tierBadgeClass(n)}">${escHtml(tierLabel(n))}</span>
+            <span class="lab-card-meta">h=${n.h_index}</span>
+          </div>`;
+
+        const starBtn = document.createElement("button");
+        starBtn.type = "button";
+        starBtn.className = "lab-star-btn";
+        starBtn.dataset.action = "star";
+        starBtn.dataset.id = n.id;
+        starBtn.setAttribute("aria-pressed", String(isSaved));
+        starBtn.setAttribute("aria-label", isSaved ? t.tblStarRemove : t.tblStarAdd);
+        starBtn.title = isSaved ? t.tblStarRemove : t.tblStarAdd;
+        starBtn.textContent = isSaved ? "★" : "☆";
+
+        li.append(btn, starBtn);
+        return li;
+      };
+
+      function renderMapOverlayUI() {
+        const t = tr();
+        const cardNode = state.mapCardLabId ? nodesById.get(state.mapCardLabId) : null;
+        if (cardNode && state.view === "map") {
+          const isSaved = state.shortlist.has(cardNode.id);
+          mapTouchCardEl.innerHTML = `
+            <div class="map-touch-top">
+              <div>
+                <div class="map-touch-title">${escHtml(cardNode.name)} <span class="badge badge-fit">${cardNode.fit_score}% · h=${cardNode.h_index}</span></div>
+                <div class="map-touch-sub">${escHtml(cardNode.institution)} · ${escHtml(cardNode.city)}, ${escHtml(cardNode.state || cardNode.country_display)}</div>
+              </div>
+              <button type="button" class="map-touch-close" id="map-touch-close" aria-label="${escHtml(t.touchCloseAria)}">✕</button>
             </div>
-            <div class="lab-card-meta">${escHtml(n.institution)}</div>
-            <div class="lab-card-badges">
-              <span class="badge"><svg aria-hidden="true" width="9" height="9" viewBox="-8 -8 16 16"><path d="${shapePath(p.shape, 4.8)}" fill="${p.colorVar}"/></svg>${escHtml(n.city)}, ${escHtml(n.state || n.country_display)}</span>
-              <span class="${tierBadgeClass(n)}">${escHtml(tierLabel(n))}</span>
-              <span class="lab-card-meta">h=${n.h_index}</span>
+            <div class="map-touch-actions">
+              <button type="button" class="btn btn-sm btn-primary" id="map-touch-detail">${escHtml(t.btnJumpInspector)}</button>
+              <button type="button" class="btn btn-sm ${isSaved ? "btn-primary" : ""}" id="map-touch-star" aria-pressed="${isSaved}">${escHtml(isSaved ? t.inspStarred : t.inspUnstarred)}</button>
             </div>`;
-          li.appendChild(btn);
-          frag.appendChild(li);
+          mapTouchCardEl.hidden = false;
+          mapAreaPillEl.hidden = true;
+          document.getElementById("map-touch-close").addEventListener("click", () => {
+            state.mapCardLabId = null;
+            renderMapOverlayUI();
+          });
+          document.getElementById("map-touch-detail").addEventListener("click", () => {
+            document.getElementById("inspector-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+          document.getElementById("map-touch-star").addEventListener("click", () => {
+            toggleShortlist(cardNode.id);
+          });
+          return;
         }
-        labListEl.replaceChildren(frag);
+        mapTouchCardEl.hidden = true;
+
+        if (state.view === "map" && (state.country || state.stateUS || state.onlyShortlist)) {
+          const title = getActiveAreaLabel(state.filteredIds.size);
+          mapAreaPillEl.innerHTML = `
+            <button type="button" class="btn btn-sm" id="map-area-jump"><span>${escHtml(title)}</span><strong>${escHtml(t.areaSeeList)}</strong></button>
+            <button type="button" class="map-touch-close" id="map-area-clear" aria-label="${escHtml(t.btnResetFilters)}">✕</button>`;
+          mapAreaPillEl.hidden = false;
+          document.getElementById("map-area-jump").addEventListener("click", () => {
+            if (!mobileAreaResultsEl.hidden) {
+              mobileAreaResultsEl.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          });
+          document.getElementById("map-area-clear").addEventListener("click", () => resetAllFilters(true));
+        } else {
+          mapAreaPillEl.hidden = true;
+        }
+      }
+
+      const renderMobileAreaResults = (items) => {
+        const t = tr();
+        const active = hasActiveFilterOrArea();
+        mobileAreaResultsEl.hidden = !active;
+        if (!active) {
+          mobileAreaListEl.replaceChildren();
+          renderMapOverlayUI();
+          return;
+        }
+        document.getElementById("mobile-area-title").textContent = getActiveAreaLabel(items.length);
+        document.getElementById("btn-clear-area-mobile").textContent = t.btnResetFilters;
+        if (items.length === 0) {
+          const emptyLi = document.createElement("li");
+          emptyLi.className = "mobile-area-empty";
+          emptyLi.textContent = state.onlyShortlist ? t.areaEmptyFavs : t.areaEmptyMatch;
+          mobileAreaListEl.replaceChildren(emptyLi);
+        } else {
+          const frag = document.createDocumentFragment();
+          for (const n of items) frag.appendChild(createLabListRow(n, t));
+          mobileAreaListEl.replaceChildren(frag);
+        }
+        renderMapOverlayUI();
+      };
+
+      const renderSidebarList = () => {
+        const t = tr();
+        const items = getSortedFilteredNodes();
+        if (items.length === 0) {
+          const emptyLi = document.createElement("li");
+          emptyLi.className = "mobile-area-empty";
+          emptyLi.textContent = state.onlyShortlist ? t.areaEmptyFavs : t.areaEmptyMatch;
+          labListEl.replaceChildren(emptyLi);
+        } else {
+          const frag = document.createDocumentFragment();
+          for (const n of items) frag.appendChild(createLabListRow(n, t));
+          labListEl.replaceChildren(frag);
+        }
         document.getElementById("filtered-count-label").textContent = t.showingLabs(items.length, ATLAS.nodes.length);
         document.getElementById("dir-summary-text").textContent = t.dirSummary(items.length);
+        renderMobileAreaResults(items);
       };
 
       const isMobileViewport = () => window.matchMedia("(max-width: 820px), (max-width: 960px) and (max-height: 520px)").matches;
@@ -3682,13 +4065,29 @@
       document.getElementById("btn-jump-inspector").addEventListener("click", () => {
         document.getElementById("inspector-panel").scrollIntoView({ behavior: "smooth", block: "start" });
       });
+      mobileJumpStarEl.addEventListener("click", () => {
+        if (state.selectedId) toggleShortlist(state.selectedId);
+      });
+      document.getElementById("btn-clear-area-mobile").addEventListener("click", () => resetAllFilters(true));
 
-      labListEl.addEventListener("click", (e) => {
+      const handleLabListClick = (e, closeMobile) => {
+        const starBtn = e.target.closest('.lab-star-btn[data-action="star"]');
+        if (starBtn) {
+          toggleShortlist(starBtn.dataset.id);
+          return;
+        }
         const btn = e.target.closest(".lab-card-btn");
         if (!btn) return;
-        selectLab(btn.dataset.id, { scrollSidebar: false });
-        if (isMobileViewport()) setMobileDrawer(null);
-      });
+        const id = btn.dataset.id;
+        const wasSelected = state.selectedId === id;
+        selectLab(id, { scrollSidebar: false, fromMapTap: !closeMobile && isMobileViewport(), isTouch: !closeMobile && isMobileViewport() });
+        if (closeMobile && isMobileViewport()) setMobileDrawer(null);
+        else if (!closeMobile && wasSelected && isMobileViewport()) {
+          document.getElementById("inspector-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      };
+      labListEl.addEventListener("click", (e) => handleLabListClick(e, true));
+      mobileAreaListEl.addEventListener("click", (e) => handleLabListClick(e, false));
 
       const buildShareUrl = (id) => {
         const url = new URL(window.location.href);
@@ -3888,6 +4287,10 @@
       const updateShortlistUI = () => {
         const t = tr();
         document.getElementById("shortlist-count").textContent = String(state.shortlist.size);
+        const curSaved = Boolean(state.selectedId && state.shortlist.has(state.selectedId));
+        mobileJumpStarEl.setAttribute("aria-pressed", String(curSaved));
+        mobileJumpStarEl.setAttribute("aria-label", curSaved ? t.tblStarRemove : t.tblStarAdd);
+        mobileJumpStarEl.textContent = curSaved ? "★" : "☆";
         for (const row of labsTbody.rows) {
           const btn = row.querySelector('button[data-action="star"]');
           const saved = state.shortlist.has(row.dataset.id);
@@ -3916,15 +4319,22 @@
         if (!nodesById.has(id)) return;
         const prevId = state.selectedId;
         state.selectedId = id;
+        if (opts.fromMapTap && opts.isTouch) {
+          state.mapCardLabId = id;
+        } else if (!opts.fromMapTap && !opts.keepMapCard) {
+          state.mapCardLabId = null;
+        }
         for (const row of labsTbody.rows) row.classList.toggle("is-selected", row.dataset.id === id);
 
         let activeBtn = null;
-        for (const b of labListEl.querySelectorAll(".lab-card-btn")) {
-          if (b.dataset.id === id) {
-            b.setAttribute("aria-current", "true");
-            activeBtn = b;
-          } else {
-            b.removeAttribute("aria-current");
+        for (const listContainer of [labListEl, mobileAreaListEl]) {
+          for (const b of listContainer.querySelectorAll(".lab-card-btn")) {
+            if (b.dataset.id === id) {
+              b.setAttribute("aria-current", "true");
+              if (listContainer === labListEl) activeBtn = b;
+            } else {
+              b.removeAttribute("aria-current");
+            }
           }
         }
         if (activeBtn && opts.scrollSidebar !== false) {
@@ -3942,6 +4352,8 @@
         updateMarkerClasses();
         applyMapTransform();
         renderInspector();
+        updateShortlistUI();
+        renderMapOverlayUI();
         if (prevId !== id) {
           document.getElementById("inspector-panel").scrollTop = 0;
         }
@@ -4006,6 +4418,7 @@
         document.getElementById("view-network").classList.toggle("is-active", viewName === "network");
         document.getElementById("view-directory").classList.toggle("is-active", viewName === "directory");
         if (isMobileViewport()) setMobileDrawer(null);
+        renderMapOverlayUI();
         if (viewName === "network") requestAnimationFrame(drawNetwork);
       }
 
@@ -4177,10 +4590,12 @@
         renderPillarButtons();
         updateSystemThemeLabel();
         updateDirectoryRowsLanguage();
+        updateShortlistUI();
 
         if (!opts.initial) {
           renderSidebarList();
           renderInspector();
+          renderMapOverlayUI();
           const cur = nodesById.get(state.selectedId);
           if (cur) document.getElementById("mobile-jump-sub").textContent = t.jumpSub(cur.institution, cur.fit_score);
           if (state.view === "network") drawNetwork();
@@ -4215,16 +4630,17 @@
       });
       countrySel.addEventListener("change", (e) => {
         state.country = e.target.value;
+        state.mapCardLabId = null;
         if (state.country && state.country !== "United States of America") {
           state.stateUS = "";
           stateSel.value = "";
         }
         applyFilters();
-        if (state.country === "United States of America") zoomToGeoBox(...REGION_BOXES.usa);
-        else if (state.country) zoomToProjectedBox(countryBounds.get(filterCountryToGeo(state.country)), 14);
+        if (state.country) zoomToSelectedCountry(state.country);
       });
       stateSel.addEventListener("change", (e) => {
         state.stateUS = e.target.value;
+        state.mapCardLabId = null;
         if (state.stateUS) {
           state.country = "United States of America";
           countrySel.value = state.country;
@@ -4258,6 +4674,7 @@
       geoChips.addEventListener("click", (e) => {
         const c = e.target.closest(".geo-chip");
         if (!c) return;
+        state.mapCardLabId = null;
         const isCountryChip = c.dataset.geoType === "country";
         if (isCountryChip) {
           state.country = state.country === c.dataset.geoVal && !state.stateUS ? "" : c.dataset.geoVal;
@@ -4270,15 +4687,15 @@
         stateSel.value = state.stateUS;
         applyFilters();
         if (isCountryChip) {
-          if (state.country === "United States of America") zoomToGeoBox(...REGION_BOXES.usa);
-          else if (state.country) zoomToProjectedBox(countryBounds.get(filterCountryToGeo(state.country)), 14);
+          if (state.country) zoomToSelectedCountry(state.country);
+          else zoomToGeoBox(...REGION_BOXES.world);
         } else {
           if (state.stateUS) zoomToProjectedBox(stateBounds.get(state.stateUS), 22);
           else zoomToGeoBox(...REGION_BOXES.usa);
         }
       });
       function resetAllFilters(resetZoom = true) {
-        state.search = ""; state.country = ""; state.stateUS = ""; state.pillar = "all"; state.tier = "all"; state.minFit = 0; state.onlyShortlist = false;
+        state.search = ""; state.country = ""; state.stateUS = ""; state.pillar = "all"; state.tier = "all"; state.minFit = 0; state.onlyShortlist = false; state.mapCardLabId = null;
         document.getElementById("search-input").value = "";
         countrySel.value = ""; stateSel.value = "";
         document.getElementById("fit-slider").value = "0";
@@ -4291,9 +4708,15 @@
       }
       document.getElementById("btn-reset-filters").addEventListener("click", () => resetAllFilters(true));
       document.getElementById("btn-reset-filters-mobile").addEventListener("click", () => resetAllFilters(true));
-      document.getElementById("btn-close-filters-mobile").addEventListener("click", () => setMobileDrawer(null));
+      document.getElementById("btn-close-filters-mobile").addEventListener("click", () => {
+        setMobileDrawer(null);
+        if (isMobileViewport() && state.view === "map") {
+          document.getElementById("main-content").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
       document.getElementById("btn-shortlist-filter").addEventListener("click", (e) => {
         state.onlyShortlist = !state.onlyShortlist;
+        state.mapCardLabId = null;
         e.currentTarget.setAttribute("aria-pressed", String(state.onlyShortlist));
         applyFilters();
       });
