@@ -1,0 +1,35 @@
+name: Report Broken or Suspicious Link
+description: Report an expired, unreachable, HTTP-only, or suspicious external link in the atlas.
+title: "[Link Check]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If you suspect an active domain takeover, phishing portal, or XSS vulnerability, please report it privately via **Security → Advisories → Report a vulnerability** instead of a public issue.
+  - type: input
+    id: lab_name
+    attributes:
+      label: Laboratory / PI Name
+      placeholder: e.g. Dr. ...
+    validations:
+      required: true
+  - type: input
+    id: current_url
+    attributes:
+      label: Affected URL
+      placeholder: https://...
+    validations:
+      required: true
+  - type: input
+    id: suggested_url
+    attributes:
+      label: Verified Institutional Replacement URL (if known)
+      placeholder: https://...
+  - type: textarea
+    id: details
+    attributes:
+      label: Observed Issue
+      placeholder: 404 Not Found, expired domain, TLS certificate error, or institutional move.
+    validations:
+      required: true

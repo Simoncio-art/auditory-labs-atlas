@@ -1,0 +1,57 @@
+name: Suggest or Update a Laboratory
+description: Propose an auditory neuroscience or computational audiology laboratory, or request a correction.
+title: "[Lab]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping expand **Auditory Atlas**! Please provide verifiable institutional details below (in English or Spanish). Do **not** submit private personal emails or phone numbers.
+  - type: input
+    id: pi_name
+    attributes:
+      label: Principal Investigator / Lab Director
+      placeholder: e.g. Jane Doe, PhD
+    validations:
+      required: true
+  - type: input
+    id: institution
+    attributes:
+      label: Institution & City / Country
+      placeholder: e.g. University of ..., Boston, United States
+    validations:
+      required: true
+  - type: input
+    id: lab_url
+    attributes:
+      label: Official Lab URL (https:// preferred)
+      placeholder: https://...
+    validations:
+      required: true
+  - type: input
+    id: careers_url
+    attributes:
+      label: Official Careers / Postdoc Portal URL (optional)
+      placeholder: https://...
+  - type: input
+    id: ids
+    attributes:
+      label: OpenAlex Author ID or ORCID
+      description: Helps verify publications, coauthorships, and bibliometrics accurately.
+      placeholder: e.g. 0000-0000-0000-0000 or https://openalex.org/A...
+  - type: dropdown
+    id: pillar
+    attributes:
+      label: Primary Research Pillar
+      options:
+        - ABR, EEG/MEG & Neural Timing
+        - Auditory MRI (3T/7T) & Neuroanatomy
+        - Cochlea, MOC Efferent & Synaptopathy
+        - Aging, Cognition & Tinnitus
+        - Cochlear Implants, Speech & Modeling
+        - Computational Audiology
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Details or Correction Notes
+      placeholder: Briefly describe research focus or correction needed.
