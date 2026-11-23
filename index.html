@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-YjoPcmv8qM0FYyQ1foRs1HjW3Gg20J8XNgO/zdae7CM=' 'sha256-kfcRBHRwDUStzsj0FI94QWCR6w4Ewx+Qv55t0w4Ajzc='; style-src 'sha256-tX6WUcFTet1VbNdMUXZ8/skos1+sVOlgYVvbNM4qyDE='; img-src 'self' data:; font-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-YjoPcmv8qM0FYyQ1foRs1HjW3Gg20J8XNgO/zdae7CM=' 'sha256-CQ/l1ynzB7HbiYz/Heg0iB7iil5j2hyKjUj9DpVN07c='; style-src 'sha256-tX6WUcFTet1VbNdMUXZ8/skos1+sVOlgYVvbNM4qyDE='; img-src 'self' data:; font-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <meta name="description" content="Interactive Equal Earth world map, Connected-Papers-style coauthorship & bibliographic similarity network, and searchable directory of 226 verified auditory neuroscience & computational audiology laboratories across 30 countries.">
   <meta name="author" content="Simoncio-art">
   <link rel="canonical" href="https://simoncio-art.github.io/auditory-labs-atlas/">
@@ -3206,6 +3206,14 @@
         return anyMarker ? anyMarker.dataset.id : null;
       };
 
+      const normWheelDelta = (e) => {
+        let dy = e.deltaY;
+        if (e.deltaMode === 1) dy *= 32;
+        else if (e.deltaMode === 2) dy *= 320;
+        if (Math.abs(dy) < 0.25) return 0;
+        return Math.max(-120, Math.min(120, dy));
+      };
+
       const mapPointers = new Map();
       let mapDrag = null;
       let mapPinch = null;
@@ -3220,7 +3228,7 @@
           const midY = (p1.y + p2.y) / 2;
           const [svx, svy] = clientToSvgCoords(midX, midY);
           mapPinch = {
-            startDist: Math.max(10, Math.hypot(p2.x - p1.x, p2.y - p1.y)),
+            startDist: Math.max(24, Math.hypot(p2.x - p1.x, p2.y - p1.y)),
             startK: state.mapTransform.k,
             anchorMapX: (svx - state.mapTransform.x) / state.mapTransform.k,
             anchorMapY: (svy - state.mapTransform.y) / state.mapTransform.k,
@@ -3246,11 +3254,12 @@
         }
         if (mapPointers.size === 2 && mapPinch) {
           const [p1, p2] = [...mapPointers.values()];
-          const dist = Math.max(10, Math.hypot(p2.x - p1.x, p2.y - p1.y));
+          const dist = Math.max(24, Math.hypot(p2.x - p1.x, p2.y - p1.y));
           const midX = (p1.x + p2.x) / 2;
           const midY = (p1.y + p2.y) / 2;
           const [svx, svy] = clientToSvgCoords(midX, midY);
-          const nextK = Math.max(0.75, Math.min(MAX_MAP_ZOOM, mapPinch.startK * (dist / mapPinch.startDist)));
+          const pinchScale = Math.pow(dist / mapPinch.startDist, 0.72);
+          const nextK = Math.max(0.75, Math.min(MAX_MAP_ZOOM, mapPinch.startK * pinchScale));
           state.mapTransform.k = nextK;
           state.mapTransform.x = svx - mapPinch.anchorMapX * nextK;
           state.mapTransform.y = svy - mapPinch.anchorMapY * nextK;
@@ -3393,8 +3402,10 @@
       });
       mapSvg.addEventListener("wheel", (e) => {
         e.preventDefault();
+        const dy = normWheelDelta(e);
+        if (!dy) return;
         const [vx, vy] = clientToSvgCoords(e.clientX, e.clientY);
-        const factor = e.deltaY < 0 ? 1.22 : 0.82;
+        const factor = Math.exp(-dy * 0.0012);
         const nextK = Math.max(0.75, Math.min(MAX_MAP_ZOOM, state.mapTransform.k * factor));
         const ratio = nextK / state.mapTransform.k;
         state.mapTransform.x = vx - (vx - state.mapTransform.x) * ratio;
@@ -3724,7 +3735,7 @@
           netDrag = null;
           const [p1, p2] = [...netPointers.values()];
           netPinch = {
-            startDist: Math.max(10, Math.hypot(p2.x - p1.x, p2.y - p1.y)),
+            startDist: Math.max(24, Math.hypot(p2.x - p1.x, p2.y - p1.y)),
             startK: state.netTransform.k,
           };
           netTooltip.hidden = true;
@@ -3740,8 +3751,9 @@
         }
         if (netPointers.size === 2 && netPinch) {
           const [p1, p2] = [...netPointers.values()];
-          const dist = Math.max(10, Math.hypot(p2.x - p1.x, p2.y - p1.y));
-          state.netTransform.k = Math.max(0.45, Math.min(8.0, netPinch.startK * (dist / netPinch.startDist)));
+          const dist = Math.max(24, Math.hypot(p2.x - p1.x, p2.y - p1.y));
+          const pinchScale = Math.pow(dist / netPinch.startDist, 0.72);
+          state.netTransform.k = Math.max(0.45, Math.min(8.0, netPinch.startK * pinchScale));
           drawNetwork();
           return;
         }
@@ -3819,7 +3831,9 @@
       });
       netCanvas.addEventListener("wheel", (e) => {
         e.preventDefault();
-        const factor = e.deltaY < 0 ? 1.14 : 0.88;
+        const dy = normWheelDelta(e);
+        if (!dy) return;
+        const factor = Math.exp(-dy * 0.00095);
         state.netTransform.k = Math.max(0.45, Math.min(8.0, state.netTransform.k * factor));
         drawNetwork();
       }, { passive: false });
@@ -4825,7 +4839,7 @@
         updateMapArcs();
       });
       document.getElementById("btn-map-zoom-in").addEventListener("click", () => {
-        const k = Math.min(MAX_MAP_ZOOM, state.mapTransform.k * 1.6);
+        const k = Math.min(MAX_MAP_ZOOM, state.mapTransform.k * 1.35);
         const r = k / state.mapTransform.k;
         state.mapTransform.x = 500 - (500 - state.mapTransform.x) * r;
         state.mapTransform.y = 300 - (300 - state.mapTransform.y) * r;
@@ -4833,7 +4847,7 @@
         applyMapTransform();
       });
       document.getElementById("btn-map-zoom-out").addEventListener("click", () => {
-        const k = Math.max(0.75, state.mapTransform.k / 1.6);
+        const k = Math.max(0.75, state.mapTransform.k / 1.35);
         const r = k / state.mapTransform.k;
         state.mapTransform.x = 500 - (500 - state.mapTransform.x) * r;
         state.mapTransform.y = 300 - (300 - state.mapTransform.y) * r;
@@ -4863,11 +4877,11 @@
         drawNetwork();
       });
       document.getElementById("btn-net-zoom-in").addEventListener("click", () => {
-        state.netTransform.k = Math.min(8.0, state.netTransform.k * 1.25);
+        state.netTransform.k = Math.min(8.0, state.netTransform.k * 1.18);
         drawNetwork();
       });
       document.getElementById("btn-net-zoom-out").addEventListener("click", () => {
-        state.netTransform.k = Math.max(0.45, state.netTransform.k / 1.25);
+        state.netTransform.k = Math.max(0.45, state.netTransform.k / 1.18);
         drawNetwork();
       });
       document.getElementById("btn-net-reset").addEventListener("click", () => {
